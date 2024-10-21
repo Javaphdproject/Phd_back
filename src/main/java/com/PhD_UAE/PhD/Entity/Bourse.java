@@ -2,10 +2,14 @@ package com.PhD_UAE.PhD.Entity;
 
 import com.PhD_UAE.PhD.Entity.Candidat;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Bourse {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,7 @@ public class Bourse {
     public Bourse() {
     }
 
-    public Long getIdBourse() {
+    /*public Long getIdBourse() {
         return idBourse;
     }
 
@@ -69,5 +73,5 @@ public class Bourse {
 
     public void setDateDemande(Date dateDemande) {
         DateDemande = dateDemande;
-    }
+    }*/
 }

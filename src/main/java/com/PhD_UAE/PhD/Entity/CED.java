@@ -1,20 +1,26 @@
 package com.PhD_UAE.PhD.Entity;
 
-
-import com.PhD_UAE.PhD.Entity.Etablissement;
-import com.PhD_UAE.PhD.Entity.Sujet;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Data
+@Getter
+@Setter
 public class CED {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCED;
+    private Long idCED; // Unique ID for CED
+
+    @OneToOne
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
+    private User user;
 
     private String nom;
-
 
     // Relations
     @ManyToOne
@@ -23,38 +29,6 @@ public class CED {
 
     @OneToMany(mappedBy = "ced")
     private List<Sujet> sujets;
+
     public CED() {}
-
-    public Long getIdCED() {
-        return idCED;
-    }
-
-    public void setIdCED(Long idCED) {
-        this.idCED = idCED;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Etablissement getEtablissement() {
-        return etablissement;
-    }
-
-    public void setEtablissement(Etablissement etablissement) {
-        this.etablissement = etablissement;
-    }
-
-    public List<Sujet> getSujets() {
-        return sujets;
-    }
-
-    public void setSujets(List<Sujet> sujets) {
-        this.sujets = sujets;
-    }
 }
-

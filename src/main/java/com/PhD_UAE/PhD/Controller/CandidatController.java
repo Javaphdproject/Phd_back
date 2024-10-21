@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/candidat")
+@RequestMapping("/candidat")
 @CrossOrigin(origins = "http://localhost:4200") // Allow Angular to connect
 public class CandidatController {
 
@@ -19,9 +19,9 @@ public class CandidatController {
     public ResponseEntity<Candidat> login(@RequestParam String email, @RequestParam String password) {
         Candidat candidat = candidatService.login(email, password);
         if (candidat != null) {
-            return ResponseEntity.ok(candidat); // Login successful
+            return ResponseEntity.ok(candidat);
         } else {
-            return ResponseEntity.status(401).body(null); // Unauthorized
+            return ResponseEntity.status(401).body(null);
         }
     }
 }

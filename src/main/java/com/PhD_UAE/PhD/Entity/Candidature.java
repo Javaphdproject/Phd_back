@@ -1,9 +1,8 @@
 package com.PhD_UAE.PhD.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Candidature {
@@ -12,4 +11,6 @@ public class Candidature {
     private int idcandidature;
     private boolean dossierComplet ;
     private String etatCandidature;
+    @OneToMany(mappedBy = "candidat")
+    private List<Candidat> candidat;
 }

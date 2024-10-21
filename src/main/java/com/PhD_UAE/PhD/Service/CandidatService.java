@@ -1,4 +1,4 @@
-/*package com.PhD_UAE.PhD.Service;
+package com.PhD_UAE.PhD.Service;
 
 
 import com.PhD_UAE.PhD.Entity.Candidat;
@@ -42,4 +42,3 @@ public class CandidatService {
         candidatRepository.deleteEmployeeById(id);
     }
 }
-*/

@@ -51,5 +51,10 @@ public class Candidat {
             inverseJoinColumns = @JoinColumn(name = "sujet_id"))
     private List<Sujet> sujets;
 
+    // Add a reference to Candidature
+    @ManyToOne
+    @JoinColumn(name = "id_candidature")
+    private Candidature candidature;
+
     public Candidat() {}
 }

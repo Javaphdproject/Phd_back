@@ -20,8 +20,6 @@ public class CED {
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
     private User user;
 
-    private String nom;
-
     // Relations
     @ManyToOne
     @JoinColumn(name = "idEtablissement")

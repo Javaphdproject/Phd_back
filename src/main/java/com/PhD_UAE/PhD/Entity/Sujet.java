@@ -29,9 +29,6 @@ public class Sujet {
     @JoinColumn(name = "idProfesseur")
     private Professeur propose;
 
-    // Relation with CED
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn(name = "idCED")
     private CED ced;

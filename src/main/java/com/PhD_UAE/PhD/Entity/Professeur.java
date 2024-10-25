@@ -16,11 +16,8 @@ public class Professeur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProfesseur;
 
-    private String prenom;
-    private String nom;
     private String adresse;
     private String grade;
-    private String tel;
     private String password;
 
     // Relationship with Sujet

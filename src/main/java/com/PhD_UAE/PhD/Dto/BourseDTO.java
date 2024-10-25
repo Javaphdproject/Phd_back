@@ -12,4 +12,8 @@ public class BourseDTO {
     private String description;
     private Double montant;
     private Long idCandidate;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2bf09fe93d02164664978bb1570adea99f199712

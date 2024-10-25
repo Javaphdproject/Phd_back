@@ -10,4 +10,8 @@ public class CandidatureDTO {
     private String etatCandidature;
     private Long idCandidat;
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2bf09fe93d02164664978bb1570adea99f199712

@@ -59,21 +59,21 @@ public class UserServiceImp implements UserDetailsService {
         try {
             userDetails = loadUserByUsername(userDTO.getEmail());
         } catch (UsernameNotFoundException e) {
-            return "Error: User not found!";
+            return "{\"status\": \"error\", \"message\": \"User not found\"}";
         }
 
         if (userDetails != null) {
             if (passwordEncoder.matches(userDTO.getMdp(), userDetails.getPassword())) {
-                String role = ((org.springframework.security.core.userdetails.User) userDetails).getAuthorities().iterator().next().getAuthority();
-
-                return "Login successful! Role: " + role ;
+                String role = ((org.springframework.security.core.userdetails.User) userDetails)
+                        .getAuthorities().iterator().next().getAuthority();
+                return "{\"status\": \"success\", \"role\": \"" + role + "\"}";
             } else {
-                return "Error: Invalid password!";
+                return "{\"status\": \"error\", \"message\": \"Invalid password\"}";
             }
         }
-
-        return "Error: User not found!";
+        return "{\"status\": \"error\", \"message\": \"Login failed\"}";
     }
+
     public String registerUser(UserDTO userDTO) {
         System.out.println("Registering user with email: " + userDTO.getEmail());
         Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());

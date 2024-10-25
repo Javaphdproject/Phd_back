@@ -9,8 +9,5 @@ public class EtablissmentDTO {
     private String adresseEtablissement;
     private String ville;
     private Long idProfesseur;
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 2bf09fe93d02164664978bb1570adea99f199712

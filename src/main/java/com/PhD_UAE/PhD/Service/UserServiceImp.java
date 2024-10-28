@@ -96,5 +96,11 @@ public class UserServiceImp implements UserDetailsService {
     public List<User> findAllByUserType(UserType userType) {
         return userRepository.findAllByUserType(userType);
     }
+    // In UserServiceImp.java
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    }
+
 }
 

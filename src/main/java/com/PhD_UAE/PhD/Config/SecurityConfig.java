@@ -32,12 +32,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/phd/auth/login", "/phd/auth/register", "/phd/auth/getall", "phd/auth/test").permitAll()
-                        .requestMatchers("/phd/auth/users/**").permitAll() // Allow public access to users retrieval
-
+                        .requestMatchers("/phd/auth/login", "/phd/auth/register", "/phd/auth/getall", "/phd/auth/test").permitAll()
+                        .requestMatchers("/phd/auth/users/**").permitAll()
+                        .requestMatchers("/phd/candidats/register").permitAll()
                         .anyRequest().authenticated());
+
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {

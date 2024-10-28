@@ -6,6 +6,7 @@ import com.PhD_UAE.PhD.Entity.UserType;
 import com.PhD_UAE.PhD.Service.UserServiceImp;
 import com.PhD_UAE.PhD.Transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -46,7 +48,17 @@ public class UserController {
                 .map(userTransformer::toDTO)
                 .toList();
     }
+    @PutMapping("/edit")
+    public ResponseEntity<String> edit(@RequestBody UserDTO userDTO) {
+        String result = userService.updateUser(userDTO);
+        return ResponseEntity.ok(result);
+    }
 
-
+    @GetMapping("/getuser/{idUser}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable long idUser) {
+        Optional<UserDTO> user = userService.getUserById(idUser);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
 

@@ -64,9 +64,12 @@ public class UserServiceImp implements UserDetailsService {
 
         if (userDetails != null) {
             if (passwordEncoder.matches(userDTO.getMdp(), userDetails.getPassword())) {
-                String role = ((org.springframework.security.core.userdetails.User) userDetails)
-                        .getAuthorities().iterator().next().getAuthority();
-                return "{\"status\": \"success\", \"role\": \"" + role + "\"}";
+                String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
+                Optional<User> userOpt = userRepository.findByEmail(userDTO.getEmail());
+                Long idUser = userOpt.map(User::getIdUser).orElse(null); // Get idUser
+
+                return "{\"status\": \"success\", \"role\": \"" + role + "\", \"idUser\": " + idUser + "}";
             } else {
                 return "{\"status\": \"error\", \"message\": \"Invalid password\"}";
             }
@@ -95,6 +98,32 @@ public class UserServiceImp implements UserDetailsService {
     }
     public List<User> findAllByUserType(UserType userType) {
         return userRepository.findAllByUserType(userType);
+    }
+
+    public String updateUser(UserDTO userDTO) {
+        // Find the user by email
+        Optional<User> userOpt = userRepository.findByEmail(userDTO.getEmail());
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            user.setPrenom(userDTO.getPrenom());
+            user.setNom(userDTO.getNom());
+            user.setMdp(userDTO.getMdp());
+            user.setTel(userDTO.getTel());
+            user.setUserType(userDTO.getUserType());
+
+            userRepository.save(user); // Save the updated user back to the database
+            return "User updated successfully";
+        } else {
+            return "User not found.";
+        }
+    }
+
+
+    public Optional<UserDTO> getUserById(long idUser) {
+        Optional<User> userOpt = userRepository.findById(idUser);
+        return userOpt.map(userTransformer::toDTO); // Assuming userTransformer transforms User to UserDTO
     }
 }
 

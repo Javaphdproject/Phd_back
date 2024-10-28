@@ -34,11 +34,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/phd/auth/login", "/phd/auth/register", "/phd/auth/getall", "/phd/auth/test").permitAll()
                         .requestMatchers("/phd/auth/users/**").permitAll()
-                        .requestMatchers("/phd/candidats/register").permitAll()
-                        .anyRequest().authenticated());
+                        .requestMatchers("/phd/candidat/create/**").permitAll() // Allow access to the create endpoint
+                        .anyRequest().authenticated()
+
+                );
 
         return http.build();
     }
+
 
 
     @Bean

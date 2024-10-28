@@ -22,10 +22,17 @@ public class User  {
     private String email;
     private String mdp;
     private String tel;
+    // One-to-one relationship with Candidat
+    @OneToOne(mappedBy = "user")
+    private Candidat candidat;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    public User() {
+    }
 
-
+    public User(Long idUser) {
+        this.idUser = idUser;
+    }
 }

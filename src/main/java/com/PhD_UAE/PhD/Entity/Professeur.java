@@ -20,8 +20,8 @@ public class Professeur {
     private String grade;
     private String password;
 
-    // Relationship with Sujet
-    @OneToMany(mappedBy = "propose") // Make sure this matches the name in Sujet
+
+    @OneToMany(mappedBy = "propose")
     private List<Sujet> sujets;
 
     @OneToMany(mappedBy = "professeur")

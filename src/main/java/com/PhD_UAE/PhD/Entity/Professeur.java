@@ -20,8 +20,11 @@ public class Professeur {
     private String grade;
     private String password;
 
-    // Relationship with Sujet
-    @OneToMany(mappedBy = "propose") // Make sure this matches the name in Sujet
+    @ManyToOne
+    @JoinColumn(name = "idStructureRecherche")
+    private StructureRecherche structureRecherche;
+
+    @OneToMany(mappedBy = "propose")
     private List<Sujet> sujets;
 
     @OneToMany(mappedBy = "professeur")

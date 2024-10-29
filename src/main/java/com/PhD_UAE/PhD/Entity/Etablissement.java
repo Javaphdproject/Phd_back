@@ -19,6 +19,10 @@ public class Etablissement {
     private String adresseEtablissement;
     private String ville;
 
+    @ManyToOne
+    @JoinColumn(name = "idCED")
+    private CED ced;
+
     // Relations
     @Getter
     @OneToMany(mappedBy = "etablissement")

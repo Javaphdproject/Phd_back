@@ -28,10 +28,81 @@ public class Candidat {
     private String cne;
     private String pays;
     private String photo;
-    private String diplomeObtenu;
-    private String etablissementPrecedent;
     private boolean fonctionnaire;
 
+    private String situationFamiliale;
+    private String nationalite;
+    private String paysNaissance;
+    private String provinceNaissance;
+    private String lieuNaissance;
+    private String sexe;
+    private String codePostal;
+    private String emailInstitutionnel;
+    private boolean handicape;
+    private String professionPere;
+    private String professionMere;
+    private String Candidatprofession;
+    private String organismeEmployeur;
+
+    // Baccalauréat
+    private String nomLycee;
+    private String paysBac;
+    private String provinceBac;
+    private String filiereBac;
+    private String anneeObtentionBac;
+    private String mentionBac;
+    private double moyenneBac;
+
+    // Licence
+    private String nomUniversiteLicence;
+    private String paysLicence;
+    private String specialiteLicence;
+    private String anneeObtentionLicence;
+    private String mentionLicence;
+    private double moyenneLicence;
+
+    // Master
+    private String nomUniversiteMaster;
+    private String paysMaster;
+    private String statutMaster;
+    private String specialiteMaster;
+    private String anneeObtentionMaster;
+    private String mentionMaster;
+    private double moyenneMaster;
+
+    // Langues
+    @ElementCollection
+    private List<String> langues;
+
+    @ElementCollection
+    private List<String> niveauxLangues;
+
+    // Expérience professionnelle
+    private boolean experienceProfessionnelle;
+
+    @ElementCollection
+    private List<String> organisme;
+
+    @ElementCollection
+    private List<String> fonctions;
+
+    @ElementCollection
+    private List<String> secteurs;
+
+    @ElementCollection
+    private List<Date> duDates;
+
+    @ElementCollection
+    private List<Date> auDates;
+
+    // Documents scannés
+    private String baccalaureatScanne;
+    private String licenceScanne;
+    private String masterScanne;
+    private String releveNoteMasterScanne;
+    private String releveNoteLicenceScanne;
+    private String carteNationaleScanne;
+    private String cvScanne;
     // Relations
     @OneToMany(mappedBy = "candidat")
     private List<Entretien> entretiens;

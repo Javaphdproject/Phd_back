@@ -33,8 +33,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/phd/auth/login", "/phd/auth/register", "/phd/auth/getall", "phd/auth/test").permitAll()
-                        .requestMatchers("/phd/auth/users/**", "phd/auth/edit", "/phd/auth/getuser/**").permitAll() // Allow public access to users retrieval
-
+                        .requestMatchers("/phd/auth/users/**").permitAll() // Allow public access to users retrieval
+                        .requestMatchers("/phd/candidat/create/**").permitAll() // Allow access to the create endpoint
+                        .requestMatchers("/phd/auth/getuser/**","/phd/auth/edit").permitAll() // Allow public access to users retrieval
+                        .requestMatchers("/phd/auth/users/ced/").permitAll() // Allow public access to users retrieval
                         .anyRequest().authenticated());
         return http.build();
     }

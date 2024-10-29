@@ -197,3 +197,48 @@
   </div>
 </div>
 imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatCheckboxModule, MatRadioModule, MatButtonModule],
+
+
+
+
+  candidatForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private candidatService: CandidatService
+  ) {
+    this.candidatForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      dateNaissance: ['', Validators.required],
+      adresse: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      nationality: ['', Validators.required],
+      educationLevel: ['', Validators.required],
+      fieldOfStudy: ['', Validators.required],
+      university: ['', Validators.required],
+      graduationYear: ['', [Validators.required, Validators.pattern(/^[0-9]{4}$/)]],
+      experienceYears: ['', [Validators.required, Validators.min(0)]],
+      previousEmployer: [''],
+      currentEmployer: [''],
+      skills: ['', Validators.required],
+      languages: ['', Validators.required],
+      motivation: ['', Validators.maxLength(500)],
+    });
+  }
+
+  onSubmit(): void {
+    if (this.candidatForm.valid) {
+      const candidatDTO: CandidatDTO = this.candidatForm.value;
+      const userId = 1; // Replace with the actual user ID
+
+      this.candidatService.createCandidat(candidatDTO, userId).subscribe({
+        next: (response) => {
+          console.log('Candidat created:', response);
+        },
+        error: (error) => {
+          console.error('Error creating candidat:', error);
+        }
+      });
+    }
+  }

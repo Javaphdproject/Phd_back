@@ -1,0 +1,199 @@
+<!-- Candidat Form Layout -->
+<div class="card">
+  <div class="card-body">
+    <h4 class="mb-32">Candidat Form</h4>
+    <form [formGroup]="candidatForm" (ngSubmit)="onSubmit()">
+
+      <!-- Basic Information -->
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter your Name">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Enter your email">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput formControlName="dateNaissance" [matDatepicker]="picker1" placeholder="Select date of birth">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="adresse" placeholder="Enter your address">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>CIN</mat-label>
+        <input matInput formControlName="cin" placeholder="Enter CIN">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>CNE</mat-label>
+        <input matInput formControlName="cne" placeholder="Enter CNE">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="pays" placeholder="Enter Country">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Photo URL</mat-label>
+        <input matInput formControlName="photo" placeholder="Enter photo URL">
+      </mat-form-field>
+
+      <mat-checkbox formControlName="fonctionnaire" class="d-block mb-16">Civil Servant</mat-checkbox>
+
+      <!-- Family Information -->
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Marital Status</mat-label>
+        <input matInput formControlName="situationFamiliale" placeholder="Enter marital status">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Nationality</mat-label>
+        <input matInput formControlName="nationalite" placeholder="Enter nationality">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Country of Birth</mat-label>
+        <input matInput formControlName="paysNaissance" placeholder="Enter country of birth">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Province of Birth</mat-label>
+        <input matInput formControlName="provinceNaissance" placeholder="Enter province of birth">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Birth Place</mat-label>
+        <input matInput formControlName="lieuNaissance" placeholder="Enter birth place">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Gender</mat-label>
+        <input matInput formControlName="sexe" placeholder="Enter gender">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Postal Code</mat-label>
+        <input matInput formControlName="codePostal" placeholder="Enter postal code">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Institutional Email</mat-label>
+        <input matInput formControlName="emailInstitutionnel" type="email" placeholder="Enter institutional email">
+      </mat-form-field>
+
+      <mat-checkbox formControlName="handicape" class="d-block mb-16">Disabled</mat-checkbox>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Father's Profession</mat-label>
+        <input matInput formControlName="professionPere" placeholder="Enter father's profession">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Mother's Profession</mat-label>
+        <input matInput formControlName="professionMere" placeholder="Enter mother's profession">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Your Profession</mat-label>
+        <input matInput formControlName="Candidatprofession" placeholder="Enter your profession">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Employer Organization</mat-label>
+        <input matInput formControlName="organismeEmployeur" placeholder="Enter employer organization">
+      </mat-form-field>
+
+      <!-- Education Information -->
+      <h5>Baccalauréat</h5>
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>High School Name</mat-label>
+        <input matInput formControlName="nomLycee" placeholder="Enter high school name">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Country</mat-label>
+        <input matInput formControlName="paysBac" placeholder="Enter bac country">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Province</mat-label>
+        <input matInput formControlName="provinceBac" placeholder="Enter bac province">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Stream</mat-label>
+        <input matInput formControlName="filiereBac" placeholder="Enter bac stream">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Graduation Year</mat-label>
+        <input matInput formControlName="anneeObtentionBac" placeholder="Enter graduation year">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Mention</mat-label>
+        <input matInput formControlName="mentionBac" placeholder="Enter bac mention">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Bac Average</mat-label>
+        <input matInput formControlName="moyenneBac" type="number" placeholder="Enter bac average">
+      </mat-form-field>
+
+      <!-- Similar fields for Licence and Master degrees here... -->
+
+      <!-- Language Proficiency -->
+      <h5>Languages</h5>
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Languages</mat-label>
+        <input matInput formControlName="langues" placeholder="Enter languages">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Language Proficiency Levels</mat-label>
+        <input matInput formControlName="niveauxLangues" placeholder="Enter proficiency levels">
+      </mat-form-field>
+
+      <!-- Professional Experience -->
+      <h5>Professional Experience</h5>
+      <mat-checkbox formControlName="experienceProfessionnelle" class="d-block mb-16">Has Professional Experience</mat-checkbox>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Organizations</mat-label>
+        <input matInput formControlName="organisme" placeholder="Enter organizations">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Functions</mat-label>
+        <input matInput formControlName="fonctions" placeholder="Enter functions">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>Sectors</mat-label>
+        <input matInput formControlName="secteurs" placeholder="Enter sectors">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>From Dates</mat-label>
+        <input matInput formControlName="dateDebut" placeholder="Enter start dates">
+      </mat-form-field>
+
+      <mat-form-field class="w-100 fs-16" appearance="outline">
+        <mat-label>To Dates</mat-label>
+        <input matInput formControlName="dateFin" placeholder="Enter end dates">
+      </mat-form-field>
+
+      <button mat-button class="btn btn-info fw-normal" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatCheckboxModule, MatRadioModule, MatButtonModule],

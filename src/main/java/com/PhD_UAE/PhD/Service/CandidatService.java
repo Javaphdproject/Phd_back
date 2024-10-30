@@ -27,9 +27,16 @@ public class CandidatService {
     @Autowired
     private CandidatTransformer candidatTransformer;
 
-    public Optional<CandidatDTO> getCandidatById(Long id) {
-        return candidatRepository.findById(id)
-                .map(candidatTransformer::toDTO);
+    public List<CandidatDTO> getAllCandidats() {
+        return candidatRepository.findAll()
+                .stream()
+                .map(candidatTransformer::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public CandidatDTO getCandidatById(Long id) {
+        Optional<Candidat> candidat = candidatRepository.findById(id);
+        return candidat.map(candidatTransformer::toDTO).orElse(null);
     }
 
     public Candidat createCandidat(CandidatDTO candidatDTO, Long userId) {

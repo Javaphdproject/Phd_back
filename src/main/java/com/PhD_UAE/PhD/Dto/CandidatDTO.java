@@ -16,7 +16,9 @@ public class CandidatDTO {
     private String pays;
     private String photo;
     private boolean fonctionnaire;
-
+    private String email;
+    private String prenom;
+    private String nom;
     // Informations supplémentaires
     private String situationFamiliale;
     private String nationalite;

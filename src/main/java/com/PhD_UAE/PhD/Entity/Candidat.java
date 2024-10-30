@@ -15,12 +15,11 @@ import java.util.List;
 public class Candidat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCandidate; // Unique ID for Candidat
+    private Long idCandidate; // ID unique pour le candidat
 
     @OneToOne
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    private User user;
-
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
+    private User user; // Association avec l'entité User
 
     private Date dateNaissance;
     private String adresse;
@@ -29,7 +28,6 @@ public class Candidat {
     private String pays;
     private String photo;
     private boolean fonctionnaire;
-
     private String situationFamiliale;
     private String nationalite;
     private String paysNaissance;
@@ -41,7 +39,7 @@ public class Candidat {
     private boolean handicape;
     private String professionPere;
     private String professionMere;
-    private String Candidatprofession;
+    private String candidatProfession;
     private String organismeEmployeur;
 
     // Baccalauréat
@@ -71,29 +69,16 @@ public class Candidat {
     private double moyenneMaster;
 
     // Langues
-    @ElementCollection
-    private List<String> langues;
-
-    @ElementCollection
-    private List<String> niveauxLangues;
+    private String langues; // Liste de langues sous forme de chaîne (ex: "Français, Anglais")
+    private String niveauxLangues; // Liste de niveaux sous forme de chaîne (ex: "B1, C2")
 
     // Expérience professionnelle
     private boolean experienceProfessionnelle;
-
-    @ElementCollection
-    private List<String> organisme;
-
-    @ElementCollection
-    private List<String> fonctions;
-
-    @ElementCollection
-    private List<String> secteurs;
-
-    @ElementCollection
-    private List<Date> duDates;
-
-    @ElementCollection
-    private List<Date> auDates;
+    private String organismes; // Liste d'organismes sous forme de chaîne
+    private String fonctions; // Liste de fonctions sous forme de chaîne
+    private String secteurs; // Liste de secteurs sous forme de chaîne
+    private String duDates; // Liste de dates de début sous forme de chaîne
+    private String auDates; // Liste de dates de fin sous forme de chaîne
 
     // Documents scannés
     private String baccalaureatScanne;
@@ -103,6 +88,7 @@ public class Candidat {
     private String releveNoteLicenceScanne;
     private String carteNationaleScanne;
     private String cvScanne;
+
     // Relations
     @OneToMany(mappedBy = "candidat")
     private List<Entretien> entretiens;
@@ -120,7 +106,7 @@ public class Candidat {
             inverseJoinColumns = @JoinColumn(name = "sujet_id"))
     private List<Sujet> sujets;
 
-    // Add a reference to Candidature
+    // Référence à Candidature
     @ManyToOne
     @JoinColumn(name = "id_candidature")
     private Candidature candidature;

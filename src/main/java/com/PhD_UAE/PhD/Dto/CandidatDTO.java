@@ -1,11 +1,9 @@
 package com.PhD_UAE.PhD.Dto;
 
-import com.PhD_UAE.PhD.Entity.Candidat;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
-
 
 @Data
 public class CandidatDTO {
@@ -18,10 +16,6 @@ public class CandidatDTO {
     private String pays;
     private String photo;
     private boolean fonctionnaire;
-    private int idEntretien;
-    private Long idBourse;
-    private int idRendezVous;
-    private int idSujet;
 
     // Informations supplémentaires
     private String situationFamiliale;
@@ -31,12 +25,11 @@ public class CandidatDTO {
     private String lieuNaissance;
     private String sexe;
     private String codePostal;
-    private String adressePermanente;
     private String emailInstitutionnel;
     private boolean handicape;
     private String professionPere;
     private String professionMere;
-    private String Candidatprofession;
+    private String candidatProfession;
     private String organismeEmployeur;
 
     // Baccalauréat
@@ -69,13 +62,12 @@ public class CandidatDTO {
     private List<String> langues;
     private List<String> niveauxLangues;
 
-    // Expérience professionnelle
     private boolean experienceProfessionnelle;
-    private List<String> organisme;
+    private String organisme;
     private List<String> fonctions;
     private List<String> secteurs;
-    private List<Date> duDates;
-    private List<Date> auDates;
+    private List<String> duDates;
+    private List<String> auDates;
 
     // Documents scannés
     private String baccalaureatScanne;
@@ -85,6 +77,4 @@ public class CandidatDTO {
     private String releveNoteLicenceScanne;
     private String carteNationaleScanne;
     private String cvScanne;
-
-
 }

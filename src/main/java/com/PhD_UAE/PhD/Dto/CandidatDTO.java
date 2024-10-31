@@ -79,7 +79,4 @@ public class CandidatDTO {
     private String releveNoteLicenceScanne;
     private String carteNationaleScanne;
     private String cvScanne;
-
-    public CandidatDTO() {
-    }
 }

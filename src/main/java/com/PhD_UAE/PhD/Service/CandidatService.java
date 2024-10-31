@@ -28,17 +28,15 @@ public class CandidatService {
     private CandidatTransformer candidatTransformer;
 
     public List<CandidatDTO> getAllCandidats() {
-        return candidatRepository.findAll()
-                .stream()
-                .map(candidatTransformer::toDTO)
-                .collect(Collectors.toList());
+        List<Candidat> candidats = candidatRepository.findAll();
+        return candidats.stream().map(candidatTransformer::toDTO).toList();
     }
 
     public CandidatDTO getCandidatById(Long id) {
-        Optional<Candidat> candidat = candidatRepository.findById(id);
-        return candidat.map(candidatTransformer::toDTO).orElse(null);
+        Candidat candidat = candidatRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Candidat non trouvé avec l'identifiant : " + id));
+        return candidatTransformer.toDTO(candidat);
     }
-
     public Candidat createCandidat(CandidatDTO candidatDTO, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));

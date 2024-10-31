@@ -8,7 +8,10 @@ import java.util.List;
 @Data
 public class CandidatDTO {
     private Long idCandidate;
-    private Long idUser;
+    private Long idUser; // ID de l'utilisateur associé au candidat
+    private String email; // Email utilisateur
+    private String prenom; // Prénom utilisateur
+    private String nom; // Nom utilisateur
     private Date dateNaissance;
     private String adresse;
     private String cin;
@@ -16,9 +19,6 @@ public class CandidatDTO {
     private String pays;
     private String photo;
     private boolean fonctionnaire;
-    private String email;
-    private String prenom;
-    private String nom;
     // Informations supplémentaires
     private String situationFamiliale;
     private String nationalite;

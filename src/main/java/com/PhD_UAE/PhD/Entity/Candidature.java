@@ -20,11 +20,11 @@ public class Candidature {
     public Candidature() {}
     @OneToOne
     @JoinColumn(name = "idCandidate", referencedColumnName = "idCandidate")
-    private Candidat candidate; // Change this line to use Candidate entity
+    private Candidat candidate;
 
     @OneToOne
     @JoinColumn(name = "idSujet", referencedColumnName = "idSujet")
-    private Sujet sujet; // Change this line to use Candidate entity
+    private Sujet sujet;
 
 
 }

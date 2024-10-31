@@ -4,12 +4,94 @@ import com.PhD_UAE.PhD.Dto.CandidatDTO;
 import com.PhD_UAE.PhD.Entity.Candidat;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
 
     @Override
+    public CandidatDTO toDTO(Candidat candidat) {
+        CandidatDTO dto = new CandidatDTO();
+
+        dto.setIdCandidate(candidat.getIdCandidate());
+        dto.setIdUser(candidat.getUser().getIdUser()); // Lier l'ID utilisateur
+        dto.setEmail(candidat.getUser().getEmail()); // Email de l'utilisateur
+        dto.setPrenom(candidat.getUser().getPrenom()); // Prénom utilisateur
+        dto.setNom(candidat.getUser().getNom()); // Nom utilisateur
+        dto.setDateNaissance(candidat.getDateNaissance());
+        dto.setAdresse(candidat.getAdresse());
+        dto.setCin(candidat.getCin());
+        dto.setCne(candidat.getCne());
+        dto.setPays(candidat.getPays());
+        dto.setPhoto(candidat.getPhoto());
+        dto.setFonctionnaire(candidat.isFonctionnaire());
+        dto.setSituationFamiliale(candidat.getSituationFamiliale());
+        dto.setNationalite(candidat.getNationalite());
+        dto.setPaysNaissance(candidat.getPaysNaissance());
+        dto.setProvinceNaissance(candidat.getProvinceNaissance());
+        dto.setLieuNaissance(candidat.getLieuNaissance());
+        dto.setSexe(candidat.getSexe());
+        dto.setCodePostal(candidat.getCodePostal());
+        dto.setEmailInstitutionnel(candidat.getEmailInstitutionnel());
+        dto.setHandicape(candidat.isHandicape());
+        dto.setProfessionPere(candidat.getProfessionPere());
+        dto.setProfessionMere(candidat.getProfessionMere());
+        dto.setCandidatProfession(candidat.getCandidatProfession());
+        dto.setOrganismeEmployeur(candidat.getOrganismeEmployeur());
+
+        // Baccalauréat
+        dto.setNomLycee(candidat.getNomLycee());
+        dto.setPaysBac(candidat.getPaysBac());
+        dto.setProvinceBac(candidat.getProvinceBac());
+        dto.setFiliereBac(candidat.getFiliereBac());
+        dto.setAnneeObtentionBac(candidat.getAnneeObtentionBac());
+        dto.setMentionBac(candidat.getMentionBac());
+        dto.setMoyenneBac(candidat.getMoyenneBac());
+
+        // Licence
+        dto.setNomUniversiteLicence(candidat.getNomUniversiteLicence());
+        dto.setPaysLicence(candidat.getPaysLicence());
+        dto.setSpecialiteLicence(candidat.getSpecialiteLicence());
+        dto.setAnneeObtentionLicence(candidat.getAnneeObtentionLicence());
+        dto.setMentionLicence(candidat.getMentionLicence());
+        dto.setMoyenneLicence(candidat.getMoyenneLicence());
+
+        // Master
+        dto.setNomUniversiteMaster(candidat.getNomUniversiteMaster());
+        dto.setPaysMaster(candidat.getPaysMaster());
+        dto.setStatutMaster(candidat.getStatutMaster()); // Include statutMaster
+        dto.setSpecialiteMaster(candidat.getSpecialiteMaster());
+        dto.setAnneeObtentionMaster(candidat.getAnneeObtentionMaster());
+        dto.setMentionMaster(candidat.getMentionMaster());
+        dto.setMoyenneMaster(candidat.getMoyenneMaster());
+
+        // Expérience professionnelle
+        dto.setExperienceProfessionnelle(candidat.isExperienceProfessionnelle());
+        dto.setOrganisme(candidat.getOrganismes());
+        dto.setLangues(splitString(candidat.getLangues()));
+        dto.setNiveauxLangues(splitString(candidat.getNiveauxLangues()));
+        dto.setFonctions(splitString(candidat.getFonctions()));
+        dto.setSecteurs(splitString(candidat.getSecteurs()));
+        dto.setDuDates(splitString(candidat.getDuDates()));
+        dto.setAuDates(splitString(candidat.getAuDates()));
+
+        // Documents scannés
+        dto.setBaccalaureatScanne(candidat.getBaccalaureatScanne());
+        dto.setLicenceScanne(candidat.getLicenceScanne());
+        dto.setMasterScanne(candidat.getMasterScanne());
+        dto.setReleveNoteMasterScanne(candidat.getReleveNoteMasterScanne());
+        dto.setReleveNoteLicenceScanne(candidat.getReleveNoteLicenceScanne());
+        dto.setCarteNationaleScanne(candidat.getCarteNationaleScanne());
+        dto.setCvScanne(candidat.getCvScanne());
+
+        return dto;
+    }
+
+    @Override
     public Candidat toEntity(CandidatDTO dto) {
         Candidat candidat = new Candidat();
+
         candidat.setIdCandidate(dto.getIdCandidate());
         candidat.setDateNaissance(dto.getDateNaissance());
         candidat.setAdresse(dto.getAdresse());
@@ -29,7 +111,7 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         candidat.setHandicape(dto.isHandicape());
         candidat.setProfessionPere(dto.getProfessionPere());
         candidat.setProfessionMere(dto.getProfessionMere());
-        candidat.setCandidatprofession(dto.getCandidatprofession());
+        candidat.setCandidatProfession(dto.getCandidatProfession());
         candidat.setOrganismeEmployeur(dto.getOrganismeEmployeur());
 
         // Baccalauréat
@@ -58,17 +140,14 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         candidat.setMentionMaster(dto.getMentionMaster());
         candidat.setMoyenneMaster(dto.getMoyenneMaster());
 
-        // Langues
-        candidat.setLangues(dto.getLangues());
-        candidat.setNiveauxLangues(dto.getNiveauxLangues());
-
-        // Expérience professionnelle
-        candidat.setExperienceProfessionnelle(dto.isExperienceProfessionnelle());
-        candidat.setOrganisme(dto.getOrganisme());
-        candidat.setFonctions(dto.getFonctions());
-        candidat.setSecteurs(dto.getSecteurs());
-        candidat.setDuDates(dto.getDuDates());
-        candidat.setAuDates(dto.getAuDates());
+        // Transform List to String for multi-valued fields
+        candidat.setLangues(joinList(dto.getLangues()));
+        candidat.setNiveauxLangues(joinList(dto.getNiveauxLangues()));
+        candidat.setOrganismes((dto.getOrganisme())); // Assurez-vous que cette méthode existe
+        candidat.setFonctions(joinList(dto.getFonctions()));
+        candidat.setSecteurs(joinList(dto.getSecteurs()));
+        candidat.setDuDates(joinList(dto.getDuDates()));
+        candidat.setAuDates(joinList(dto.getAuDates()));
 
         // Documents scannés
         candidat.setBaccalaureatScanne(dto.getBaccalaureatScanne());
@@ -79,81 +158,18 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         candidat.setCarteNationaleScanne(dto.getCarteNationaleScanne());
         candidat.setCvScanne(dto.getCvScanne());
 
+        // Expérience professionnelle
+        candidat.setExperienceProfessionnelle(dto.isExperienceProfessionnelle());
+
         return candidat;
     }
 
-    @Override
-    public CandidatDTO toDTO(Candidat entity) {
-        CandidatDTO dto = new CandidatDTO();
-        dto.setIdCandidate(entity.getIdCandidate());
-        dto.setDateNaissance(entity.getDateNaissance());
-        dto.setAdresse(entity.getAdresse());
-        dto.setCin(entity.getCin());
-        dto.setCne(entity.getCne());
-        dto.setPays(entity.getPays());
-        dto.setPhoto(entity.getPhoto());
-        dto.setFonctionnaire(entity.isFonctionnaire());
-        dto.setSituationFamiliale(entity.getSituationFamiliale());
-        dto.setNationalite(entity.getNationalite());
-        dto.setPaysNaissance(entity.getPaysNaissance());
-        dto.setProvinceNaissance(entity.getProvinceNaissance());
-        dto.setLieuNaissance(entity.getLieuNaissance());
-        dto.setSexe(entity.getSexe());
-        dto.setCodePostal(entity.getCodePostal());
-        dto.setEmailInstitutionnel(entity.getEmailInstitutionnel());
-        dto.setHandicape(entity.isHandicape());
-        dto.setProfessionPere(entity.getProfessionPere());
-        dto.setProfessionMere(entity.getProfessionMere());
-        dto.setCandidatprofession(entity.getCandidatprofession());
-        dto.setOrganismeEmployeur(entity.getOrganismeEmployeur());
 
-        // Baccalauréat
-        dto.setNomLycee(entity.getNomLycee());
-        dto.setPaysBac(entity.getPaysBac());
-        dto.setProvinceBac(entity.getProvinceBac());
-        dto.setFiliereBac(entity.getFiliereBac());
-        dto.setAnneeObtentionBac(entity.getAnneeObtentionBac());
-        dto.setMentionBac(entity.getMentionBac());
-        dto.setMoyenneBac(entity.getMoyenneBac());
+    private List<String> splitString(String input) {
+        return input != null ? Arrays.asList(input.split(",")) : null;
+    }
 
-        // Licence
-        dto.setNomUniversiteLicence(entity.getNomUniversiteLicence());
-        dto.setPaysLicence(entity.getPaysLicence());
-        dto.setSpecialiteLicence(entity.getSpecialiteLicence());
-        dto.setAnneeObtentionLicence(entity.getAnneeObtentionLicence());
-        dto.setMentionLicence(entity.getMentionLicence());
-        dto.setMoyenneLicence(entity.getMoyenneLicence());
-
-        // Master
-        dto.setNomUniversiteMaster(entity.getNomUniversiteMaster());
-        dto.setPaysMaster(entity.getPaysMaster());
-        dto.setStatutMaster(entity.getStatutMaster());
-        dto.setSpecialiteMaster(entity.getSpecialiteMaster());
-        dto.setAnneeObtentionMaster(entity.getAnneeObtentionMaster());
-        dto.setMentionMaster(entity.getMentionMaster());
-        dto.setMoyenneMaster(entity.getMoyenneMaster());
-
-        // Langues
-        dto.setLangues(entity.getLangues());
-        dto.setNiveauxLangues(entity.getNiveauxLangues());
-
-        // Expérience professionnelle
-        dto.setExperienceProfessionnelle(entity.isExperienceProfessionnelle());
-        dto.setOrganisme(entity.getOrganisme());
-        dto.setFonctions(entity.getFonctions());
-        dto.setSecteurs(entity.getSecteurs());
-        dto.setDuDates(entity.getDuDates());
-        dto.setAuDates(entity.getAuDates());
-
-        // Documents scannés
-        dto.setBaccalaureatScanne(entity.getBaccalaureatScanne());
-        dto.setLicenceScanne(entity.getLicenceScanne());
-        dto.setMasterScanne(entity.getMasterScanne());
-        dto.setReleveNoteMasterScanne(entity.getReleveNoteMasterScanne());
-        dto.setReleveNoteLicenceScanne(entity.getReleveNoteLicenceScanne());
-        dto.setCarteNationaleScanne(entity.getCarteNationaleScanne());
-        dto.setCvScanne(entity.getCvScanne());
-
-        return dto;
+    private String joinList(List<String> input) {
+        return input != null ? String.join(",", input) : null;
     }
 }

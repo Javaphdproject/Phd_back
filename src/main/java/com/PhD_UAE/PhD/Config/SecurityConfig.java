@@ -26,18 +26,20 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/phd/auth/login", "/phd/auth/register", "/phd/auth/getall", "phd/auth/test").permitAll()
-                        .requestMatchers("/phd/auth/users/**").permitAll() // Allow public access to users retrieval
-                        .requestMatchers("/phd/candidat/create/**").permitAll() // Allow access to the create endpoint
-                        .requestMatchers("/phd/auth/getuser/**","/phd/auth/edit").permitAll() // Allow public access to users retrieval
-                        .requestMatchers("/phd/auth/users/ced/").permitAll() // Allow public access to users retrieval
-                        .anyRequest().authenticated());
+                        .requestMatchers("/phd/auth/**", "/phd/candidat/create/**", "/phd/candidat/**", "/phd/candidat/getAll").permitAll() // Adjusted to allow access to candidats
+                        .requestMatchers("/phd/auth/getuser/**", "/phd/auth/edit").permitAll()
+                        .requestMatchers("/phd/auth/users/ced/").permitAll()
+                        .anyRequest().authenticated())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/phd/auth/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 

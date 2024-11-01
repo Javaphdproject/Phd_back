@@ -142,6 +142,55 @@ public class CedService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /*@Transactional
+    public String registerProfesseur(ProfesseurDTO professeurDTO, Long cedId) {
+        // Vérifier si l'utilisateur existe déjà
+        if (userRepository.findByEmail(professeurDTO.getEmail()).isPresent()) {
+            return "Error: User with email already exists!";
+        }
+
+        String generatedPassword = generatePassword(); // Générer un mot de passe
+        String encryptedPassword = passwordEncoder.encode(generatedPassword);
+
+        // Créer l'utilisateur
+        User user = new User();
+        user.setEmail(professeurDTO.getEmail());
+        user.setPrenom(professeurDTO.getPrenom());
+        user.setNom(professeurDTO.getNom());
+        user.setTel(professeurDTO.getTel());
+        user.setMdp(encryptedPassword); // Stocker le mot de passe haché
+        user.setUserType(UserType.PROFESSEUR); // Définir userType à PROFESSEUR
+
+        // Créer l'objet Professeur
+        Professeur professeur = professeurTransformer.toEntity(professeurDTO);
+        professeur.setUser(user); // Associer l'utilisateur avec le Professeur
+        professeur.setPassword(generatedPassword); // Stocker le mot de passe en clair
+
+        // Associer CED
+        CED ced = cedRepository.findById(cedId)
+                .orElseThrow(() -> new RuntimeException("CED not found"));
+        professeur.setCed(ced); // Associer le CED
+
+        // Associer établissement par nom
+        if (professeurDTO.getNomEtablissement() != null) {
+            Etablissement etablissement = etablissementRepository.findByNomEtablissement(professeurDTO.getNomEtablissement())
+                    .orElseThrow(() -> new RuntimeException("Etablissement not found"));
+            professeur.setEtablissement(etablissement);
+        }
+
+        // Associer structure de recherche par nom
+        if (professeurDTO.getNomStructureRecherche() != null) {
+            StructureRecherche structureRecherche = structureRechercheRepository.findByNom(professeurDTO.getNomStructureRecherche())
+                    .orElseThrow(() -> new RuntimeException("Structure de recherche not found"));
+            professeur.setStructureRecherche(structureRecherche);
+        }
+
+        // Enregistrer l'utilisateur et le professeur
+        userRepository.save(user); // Sauvegarder l'utilisateur
+        professeurRepository.save(professeur); // Sauvegarder le professeur
+
+        return "Professeur registered successfully! Password: " + generatedPassword;
+    }*/
     @Transactional
     public String registerProfesseur(ProfesseurDTO professeurDTO, Long cedId) {
         // Vérifier si l'utilisateur existe déjà
@@ -149,33 +198,49 @@ public class CedService {
             return "Error: User with email already exists!";
         }
 
-        String generatedPassword = generatePassword(); // Appel à la logique de génération de mot de passe
+        String generatedPassword = generatePassword(); // Générer un mot de passe
         String encryptedPassword = passwordEncoder.encode(generatedPassword);
 
+        // Créer l'utilisateur
         User user = new User();
         user.setEmail(professeurDTO.getEmail());
         user.setPrenom(professeurDTO.getPrenom());
         user.setNom(professeurDTO.getNom());
         user.setTel(professeurDTO.getTel());
-        user.setMdp(encryptedPassword); // Stocker le mot de passe haché dans User
-        user.setUserType(UserType.PROFESSEUR); // Définit userType à PROFESSEUR
+        user.setMdp(encryptedPassword); // Stocker le mot de passe haché
+        user.setUserType(UserType.PROFESSEUR); // Définir userType à PROFESSEUR
 
         // Créer l'objet Professeur
         Professeur professeur = professeurTransformer.toEntity(professeurDTO);
         professeur.setUser(user); // Associer l'utilisateur avec le Professeur
-        professeur.setPassword(generatedPassword); // Stocker le mot de passe en clair dans Professeur
+        professeur.setPassword(generatedPassword); // Stocker le mot de passe en clair
 
-        // Associer CED en utilisant cedId directement
+        // Associer CED
         CED ced = cedRepository.findById(cedId)
                 .orElseThrow(() -> new RuntimeException("CED not found"));
-        professeur.setCed(ced); // Associer le CED avec le Professeur
+        professeur.setCed(ced); // Associer le CED
+
+        // Vérifier et associer l'établissement
+        if (professeurDTO.getIdEtablissement() != null) {
+            Etablissement etablissement = etablissementRepository.findById(professeurDTO.getIdEtablissement())
+                    .orElseThrow(() -> new RuntimeException("Etablissement not found"));
+            professeur.setEtablissement(etablissement);
+        }
+
+        // Vérifier et associer la structure de recherche
+        if (professeurDTO.getIdStructureRecherche() != null) {
+            StructureRecherche structureRecherche = structureRechercheRepository.findById(professeurDTO.getIdStructureRecherche())
+                    .orElseThrow(() -> new RuntimeException("Structure de recherche not found"));
+            professeur.setStructureRecherche(structureRecherche);
+        }
 
         // Enregistrer l'utilisateur et le professeur
-        userRepository.save(user); // Sauvegarder l'utilisateur avec le mot de passe haché
+        userRepository.save(user); // Sauvegarder l'utilisateur
         professeurRepository.save(professeur); // Sauvegarder le professeur
 
         return STR."Professeur registered successfully! Password: \{generatedPassword}";
     }
+
 
 
     private String generatePassword() {

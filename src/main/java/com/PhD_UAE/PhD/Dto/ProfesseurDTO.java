@@ -20,6 +20,8 @@ public class ProfesseurDTO {
     private String password;
     private UserType userType;
     private Long cedId;
+    private Long idEtablissement;
+    private Integer idStructureRecherche;
 
     // Constructor for converting Professeur entity to DTO
     public ProfesseurDTO(Professeur professeur) {
@@ -30,6 +32,8 @@ public class ProfesseurDTO {
         this.nom = professeur.getUser().getNom();
         this.email = professeur.getUser().getEmail();
         this.tel = professeur.getUser().getTel();
+        this.idEtablissement = professeur.getEtablissement().getIdEtablissement();
+        this.idStructureRecherche = professeur.getStructureRecherche().getIdSTr();
     }
 
     public ProfesseurDTO() {}

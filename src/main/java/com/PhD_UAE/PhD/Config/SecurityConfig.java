@@ -1,5 +1,7 @@
 package com.PhD_UAE.PhD.Config;
 
+import com.PhD_UAE.PhD.Entity.CED;
+import com.PhD_UAE.PhD.Repository.CedRepository;
 import com.PhD_UAE.PhD.Service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/phd/auth/**", "/phd/candidat/create/**", "/phd/candidat/**", "/phd/candidat/getAll").permitAll() // Adjusted to allow access to candidats
+                        .requestMatchers("/phd/auth/**", "/phd/candidat/create/**", "/phd/candidat/**", "/phd/candidat/getAll", "/phd/professeurs/create/**", "/phd/auth/users/ced/create-professeur").permitAll()
                         .requestMatchers("/phd/auth/getuser/**", "/phd/auth/edit").permitAll()
                         .requestMatchers("/phd/auth/users/ced/").permitAll()
                         .anyRequest().authenticated())
@@ -49,4 +51,5 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
+
 }

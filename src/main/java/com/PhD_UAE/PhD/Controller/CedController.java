@@ -3,14 +3,19 @@ package com.PhD_UAE.PhD.Controller;
 import com.PhD_UAE.PhD.Dto.*;
 import com.PhD_UAE.PhD.Entity.Etablissement;
 import com.PhD_UAE.PhD.Entity.Professeur;
+import com.PhD_UAE.PhD.Entity.User;
+import com.PhD_UAE.PhD.Entity.UserType;
 import com.PhD_UAE.PhD.Repository.CandidatureRepository;
 import com.PhD_UAE.PhD.Service.CedService;
+import com.PhD_UAE.PhD.Service.ProfesseurService;
+import com.PhD_UAE.PhD.Service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @RestController
@@ -23,33 +28,33 @@ public class CedController {
     private CandidatureRepository candidatureRepository;
 
     @GetMapping("/get-all-etablissement")
-    public ResponseEntity<List<EtablissmentDTO>> getAllEtablissement(){
+    public ResponseEntity<List<EtablissmentDTO>> getAllEtablissement() {
         List<EtablissmentDTO> etablissement = CedService.getAllEtablissement();
-        return new ResponseEntity<>(etablissement,HttpStatus.OK);
+        return new ResponseEntity<>(etablissement, HttpStatus.OK);
     }
 
     @GetMapping("/get-all-ced")
-    public ResponseEntity<List<CedDTO>> getAllCed(){
+    public ResponseEntity<List<CedDTO>> getAllCed() {
         List<CedDTO> cedDTO = CedService.getAllCed();
-        return new ResponseEntity<>(cedDTO,HttpStatus.OK);
+        return new ResponseEntity<>(cedDTO, HttpStatus.OK);
     }
 
     @GetMapping("/get-ced-etablissement/{idCED}")
-    public ResponseEntity<List<EtablissmentDTO>> getAllEtablissementByCED(@PathVariable Long idCED){
+    public ResponseEntity<List<EtablissmentDTO>> getAllEtablissementByCED(@PathVariable Long idCED) {
         List<EtablissmentDTO> etablissement = CedService.getAllEtablissementByCED(idCED);
-        return new ResponseEntity<>(etablissement,HttpStatus.OK);
+        return new ResponseEntity<>(etablissement, HttpStatus.OK);
     }
 
     @GetMapping("/get-etablissememnt-str/{idEtablissement}")
-    public ResponseEntity<List<StructureRechercheDTO>> getStructureByEtablissement(@PathVariable Long idEtablissement){
+    public ResponseEntity<List<StructureRechercheDTO>> getStructureByEtablissement(@PathVariable Long idEtablissement) {
         List<StructureRechercheDTO> structureRecherche = CedService.getAllStrByEtablissement(idEtablissement);
-        return new ResponseEntity<>(structureRecherche,HttpStatus.OK);
+        return new ResponseEntity<>(structureRecherche, HttpStatus.OK);
     }
 
     @GetMapping("/get-str-prof/{idStr}")
-    public ResponseEntity<List<ProfesseurDTO>> getProfBystr(@PathVariable Long idStr){
+    public ResponseEntity<List<ProfesseurDTO>> getProfBystr(@PathVariable Long idStr) {
         List<ProfesseurDTO> professeurs = CedService.getProfBystr(idStr);
-        return new ResponseEntity<>(professeurs,HttpStatus.OK);
+        return new ResponseEntity<>(professeurs, HttpStatus.OK);
     }
 
 
@@ -66,22 +71,20 @@ public class CedController {
     }
 
 
-
-
     //candidature
     @GetMapping("/get-all-candidature")
-    public ResponseEntity<List<CandidatureDTO>> getAllCandidature(){
+    public ResponseEntity<List<CandidatureDTO>> getAllCandidature() {
         List<CandidatureDTO> candidature = CedService.getAllCandidature();
-        return new ResponseEntity<>(candidature,HttpStatus.OK);
+        return new ResponseEntity<>(candidature, HttpStatus.OK);
     }
 
     @GetMapping("/get-candidature/{idCandidature}")
-    public ResponseEntity<CandidatureDTO> getCandidatureByID(@PathVariable Long idCandidature){
+    public ResponseEntity<CandidatureDTO> getCandidatureByID(@PathVariable Long idCandidature) {
         CandidatureDTO candidature = CedService.getCandidatureByID(idCandidature);
-        if (candidature ==null){
+        if (candidature == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(candidature,HttpStatus.OK);
+        return new ResponseEntity<>(candidature, HttpStatus.OK);
     }
 
  /*   @GetMapping("/get-candidat/{idCandidat}")
@@ -94,7 +97,7 @@ public class CedController {
     }*/
 
     @PutMapping("/update-candidature-status/{idCandidature}/{newStatus}")
-    public ResponseEntity<String> updateCandidatureStatus(@PathVariable Long idCandidature, @PathVariable String newStatus){
+    public ResponseEntity<String> updateCandidatureStatus(@PathVariable Long idCandidature, @PathVariable String newStatus) {
         CandidatureDTO candidature = CedService.updateCandidatureStatus(idCandidature, newStatus);
 
         if (candidature == null) {

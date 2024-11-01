@@ -21,6 +21,9 @@ public class Professeur {
     private String password;
 
     @ManyToOne
+    @JoinColumn(name = "ced_id", referencedColumnName = "idCED")
+    private CED ced;
+    @ManyToOne
     @JoinColumn(name = "idStructureRecherche")
     private StructureRecherche structureRecherche;
 

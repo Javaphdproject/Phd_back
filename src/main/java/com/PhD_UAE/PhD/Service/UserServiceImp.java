@@ -6,11 +6,14 @@ import com.PhD_UAE.PhD.Entity.UserType;
 import com.PhD_UAE.PhD.Repository.UserRepository;
 import com.PhD_UAE.PhD.Transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -125,5 +128,12 @@ public class UserServiceImp implements UserDetailsService {
         Optional<User> userOpt = userRepository.findById(idUser);
         return userOpt.map(userTransformer::toDTO); // Assuming userTransformer transforms User to UserDTO
     }
-}
+
+    public boolean isCurrentUserCED() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Vérifiez que l'utilisateur est authentifié et a le rôle CED
+        return authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_CED"));
+    }
+    }
 

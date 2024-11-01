@@ -9,7 +9,7 @@ public class CedDTO {
     private Long idUser;
     private Long idEtablissement;
     private Long idSujet;
-
+    private String nom;
     public CedDTO(CED ced){
         this.idCED = ced.getIdCED();
         this.idUser = ced.getUser().getIdUser();

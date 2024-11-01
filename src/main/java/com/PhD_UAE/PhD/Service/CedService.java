@@ -3,11 +3,15 @@ package com.PhD_UAE.PhD.Service;
 import com.PhD_UAE.PhD.Dto.*;
 import com.PhD_UAE.PhD.Entity.*;
 import com.PhD_UAE.PhD.Repository.*;
+import com.PhD_UAE.PhD.Transformer.ProfesseurTransformer;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,6 +130,56 @@ public class CedService {
         candidatureRepository.save(candidature);
         return new CandidatureDTO(candidature);
     }
+    @Autowired
+    private ProfessorRepository professeurRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProfesseurTransformer professeurTransformer;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public String registerProfesseur(ProfesseurDTO professeurDTO, Long cedId) {
+        // Vérifier si l'utilisateur existe déjà
+        if (userRepository.findByEmail(professeurDTO.getEmail()).isPresent()) {
+            return "Error: User with email already exists!";
+        }
+
+        String generatedPassword = generatePassword(); // Appel à la logique de génération de mot de passe
+        String encryptedPassword = passwordEncoder.encode(generatedPassword);
+
+        User user = new User();
+        user.setEmail(professeurDTO.getEmail());
+        user.setPrenom(professeurDTO.getPrenom());
+        user.setNom(professeurDTO.getNom());
+        user.setTel(professeurDTO.getTel());
+        user.setMdp(encryptedPassword); // Stocker le mot de passe haché dans User
+        user.setUserType(UserType.PROFESSEUR); // Définit userType à PROFESSEUR
+
+        // Créer l'objet Professeur
+        Professeur professeur = professeurTransformer.toEntity(professeurDTO);
+        professeur.setUser(user); // Associer l'utilisateur avec le Professeur
+        professeur.setPassword(generatedPassword); // Stocker le mot de passe en clair dans Professeur
+
+        // Associer CED en utilisant cedId directement
+        CED ced = cedRepository.findById(cedId)
+                .orElseThrow(() -> new RuntimeException("CED not found"));
+        professeur.setCed(ced); // Associer le CED avec le Professeur
+
+        // Enregistrer l'utilisateur et le professeur
+        userRepository.save(user); // Sauvegarder l'utilisateur avec le mot de passe haché
+        professeurRepository.save(professeur); // Sauvegarder le professeur
+
+        return STR."Professeur registered successfully! Password: \{generatedPassword}";
+    }
+
+
+    private String generatePassword() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
 
 }

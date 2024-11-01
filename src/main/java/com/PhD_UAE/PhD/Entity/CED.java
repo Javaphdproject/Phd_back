@@ -14,8 +14,8 @@ import java.util.List;
 public class CED {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCED; // Unique ID for CED
-
+    private Long idCED; // Uprinique ID for CED
+    private String nom;
     @OneToOne
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
     private User user;
@@ -28,6 +28,7 @@ public class CED {
 
     @OneToMany(mappedBy = "ced")
     private List<Sujet> sujets;
-
+    @OneToMany(mappedBy = "ced")
+    private List<Professeur> professeurs;
     public CED() {}
 }

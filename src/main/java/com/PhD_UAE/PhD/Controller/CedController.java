@@ -1,17 +1,27 @@
 package com.PhD_UAE.PhD.Controller;
 
 import com.PhD_UAE.PhD.Dto.*;
-import com.PhD_UAE.PhD.Entity.Etablissement;
-import com.PhD_UAE.PhD.Entity.Professeur;
+import com.PhD_UAE.PhD.Entity.*;
 import com.PhD_UAE.PhD.Repository.CandidatureRepository;
+import com.PhD_UAE.PhD.Repository.EntretienRepository;
 import com.PhD_UAE.PhD.Service.CedService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.HttpHeaders;
+
+
 
 @RestController
 @RequestMapping(value = "/phd/auth/users/ced")
@@ -53,20 +63,6 @@ public class CedController {
     }
 
 
-    @PostMapping("/create-professeur")
-    public ResponseEntity<String> createProfesseur(@RequestBody ProfesseurDTO professeurDTO) {
-        try {
-            System.out.println("Received Professeur Data: " + professeurDTO);
-            CedService.createProfesseur(professeurDTO);
-            return new ResponseEntity<>("Professeur created successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Failed to create Professeur", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-
 
     //candidature
     @GetMapping("/get-all-candidature")
@@ -105,4 +101,52 @@ public class CedController {
     }
 
 
+
+    @GetMapping("/file/{filename:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get("src/main/java/com/PhD_UAE/PhD/files").resolve(filename);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")  // Generic binary type
+                        .body(resource);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+//
+//    @GetMapping("/getCandidates")
+//    public ResponseEntity<List<CandidatDTO>> getAcceptedCandidates() {
+//        List<CandidatDTO> acceptedCandidates = CedService.getAcceptedCandidates();
+//        return new ResponseEntity<>(acceptedCandidates, HttpStatus.OK);
+//    }
+
+
+
+
+    @GetMapping("/getCandidates")
+    public List<InterviewWithCandidateDTO> getAcceptedInterviews() {
+        List<InterviewWithCandidateDTO> interviews = CedService.getAcceptedInterviews();
+        return interviews;
+    }
+
+
+    @GetMapping("" +
+            "" +
+            "/rendezvous/{idCandidate}")
+    public ResponseEntity<RendezVous> getRendezVous(@PathVariable int idCandidate) {
+        Optional<RendezVous> rendezVous = CedService.getRendezVousForEntretien(idCandidate);
+        if (rendezVous.isPresent()) {
+            return ResponseEntity.ok(rendezVous.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

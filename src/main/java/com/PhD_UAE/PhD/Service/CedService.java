@@ -3,11 +3,16 @@ package com.PhD_UAE.PhD.Service;
 import com.PhD_UAE.PhD.Dto.*;
 import com.PhD_UAE.PhD.Entity.*;
 import com.PhD_UAE.PhD.Repository.*;
+import com.PhD_UAE.PhD.Transformer.CandidatTransformer;
+import com.PhD_UAE.PhD.Transformer.ProfesseurTransformer;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +32,22 @@ public class CedService {
     private CandidatRepository candidatRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserRepository UserRepository;
+
+    @Autowired
+    private ProfessorRepository professeurRepository;
+
+    @Autowired
+    private ProfesseurTransformer professeurTransformer;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RendezVousRepository rendezVousRepository;
 
     public List<EtablissmentDTO> getAllEtablissement(){
         List<Etablissement> etablissements = etablissementRepository.findAll();
@@ -128,4 +148,84 @@ public class CedService {
     }
 
 
+
+
+    private String generatePassword() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    @Transactional
+    public String registerProfesseur(ProfesseurDTO professeurDTO, Long cedId) {
+        // Vérifier si l'utilisateur existe déjà
+        if (userRepository.findByEmail(professeurDTO.getEmail()).isPresent()) {
+            return "Error: User with email already exists!";
+        }
+
+        String generatedPassword = generatePassword(); // Générer un mot de passe
+        String encryptedPassword = passwordEncoder.encode(generatedPassword);
+
+        // Créer l'utilisateur
+        User user = new User();
+        user.setEmail(professeurDTO.getEmail());
+        user.setPrenom(professeurDTO.getPrenom());
+        user.setNom(professeurDTO.getNom());
+        user.setTel(professeurDTO.getTel());
+        user.setMdp(encryptedPassword); // Stocker le mot de passe haché
+        user.setUserType(UserType.PROFESSEUR); // Définir userType à PROFESSEUR
+
+        // Créer l'objet Professeur
+        Professeur professeur = professeurTransformer.toEntity(professeurDTO);
+        professeur.setUser(user); // Associer l'utilisateur avec le Professeur
+        professeur.setPassword(generatedPassword); // Stocker le mot de passe en clair
+
+        // Associer CED
+        CED ced = cedRepository.findById(cedId)
+                .orElseThrow(() -> new RuntimeException("CED not found"));
+        professeur.setCed(ced); // Associer le CED
+
+        // Vérifier et associer l'établissement
+        if (professeurDTO.getIdEtablissement() != null) {
+            Etablissement etablissement = etablissementRepository.findById(professeurDTO.getIdEtablissement())
+                    .orElseThrow(() -> new RuntimeException("Etablissement not found"));
+            professeur.setEtablissement(etablissement);
+        }
+
+        // Vérifier et associer la structure de recherche
+        if (professeurDTO.getIdStructureRecherche() != null) {
+            StructureRecherche structureRecherche = structureRechercheRepository.findById(professeurDTO.getIdStructureRecherche())
+                    .orElseThrow(() -> new RuntimeException("Structure de recherche not found"));
+            professeur.setStructureRecherche(structureRecherche);
+        }
+
+        // Enregistrer l'utilisateur et le professeur
+        userRepository.save(user); // Sauvegarder l'utilisateur
+        professeurRepository.save(professeur); // Sauvegarder le professeur
+
+        return STR."Professeur registered successfully! Password: \{generatedPassword}";
+    }
+
+
+    @Autowired
+    private EntretienRepository entretienRepository;
+
+    @Autowired
+    private CandidatTransformer candidatTransformer;
+
+    public List<CandidatDTO> getAcceptedCandidates() {
+        List<Candidat> acceptedCandidats = entretienRepository.findAcceptedCandidates();
+        return acceptedCandidats.stream().map(candidatTransformer::toDTO).toList();
+    }
+
+    public List<InterviewWithCandidateDTO> getAcceptedInterviews() {
+        List<Entretien> acceptedInterviews = entretienRepository.findByStatus("accepted");
+
+        return acceptedInterviews.stream()
+                .map(InterviewWithCandidateDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
+    public Optional<RendezVous> getRendezVousForEntretien(int idCandidate) {
+        return rendezVousRepository.findByCandidat_IdCandidate(idCandidate);
+    }
 }

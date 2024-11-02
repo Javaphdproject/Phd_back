@@ -3,28 +3,25 @@ package com.PhD_UAE.PhD.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-@Data
 @Entity
+@Data
 public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idcandidature;
+    private int idcandidature; // Changez de int à Long pour la cohérence
+
     private boolean dossierComplet;
     private String etatCandidature;
 
-    // Update the mapping here
-    @OneToMany(mappedBy = "candidature")
-    private List<Candidat> candidats;
+    // Many-to-One relation with Candidat
+    @ManyToOne
+    @JoinColumn(name = "idCandidate", referencedColumnName = "idCandidate", nullable = false)
+    private Candidat candidat;
 
-    public Candidature() {}
+    // One-to-One relation with Sujet
     @OneToOne
-    @JoinColumn(name = "idCandidate", referencedColumnName = "idCandidate")
-    private Candidat candidate;
-
-    @OneToOne
-    @JoinColumn(name = "idSujet", referencedColumnName = "idSujet")
+    @JoinColumn(name = "idSujet", referencedColumnName = "idSujet", nullable = false)
     private Sujet sujet;
 
-
+    public Candidature() {}
 }

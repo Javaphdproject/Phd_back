@@ -10,4 +10,7 @@ public interface StructureRechercheRepository extends JpaRepository<StructureRec
     Optional<StructureRecherche> findByNom(String nom);
 
     List<StructureRecherche> findAllByEtablissement_IdEtablissement(Long idEtablissement);
+    boolean existsByTypeStructureAndNom(String typeStructure, String nom);
+
+
 }

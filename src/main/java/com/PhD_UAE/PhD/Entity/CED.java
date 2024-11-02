@@ -14,7 +14,7 @@ import java.util.List;
 public class CED {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCED; // Uprinique ID for CED
+    private Long idCED;
     private String nom;
     @OneToOne
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)

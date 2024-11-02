@@ -20,16 +20,16 @@ public class Etablissement {
     private String ville;
 
     @ManyToOne
-    @JoinColumn(name = "idCED")
+    @JoinColumn(name = "idCED", nullable = false)
     private CED ced;
 
     // Relations
     @Getter
     @OneToMany(mappedBy = "etablissement")
-    private List<com.PhD_UAE.PhD.Entity.Professeur> professeurs;
+    private List<Professeur> professeurs;
 
-    @OneToOne(mappedBy = "etablissement")
-    private StructureRecherche structureRecherche;
+    @OneToMany(mappedBy = "etablissement")
+    private List<StructureRecherche> structuresRecherche;
     public Etablissement() {
     }
 

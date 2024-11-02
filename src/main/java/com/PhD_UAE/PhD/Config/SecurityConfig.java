@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/phd/auth/**", "/phd/candidat/create/**", "/phd/candidat/**", "/phd/candidat/getAll", "/phd/professeurs/create/**", "/phd/auth/users/ced/create-professeur").permitAll()
+                        .requestMatchers("/phd/auth/**", "/phd/candidat/create/**", "/phd/candidat/**", "/phd/professeurs/create/**", "/phd/structures-recherche/create/**","/phd/etablissements/create/**").permitAll()
                         .requestMatchers("/phd/auth/getuser/**", "/phd/auth/edit").permitAll()
                         .requestMatchers("/phd/auth/users/ced/").permitAll()
                         .anyRequest().authenticated())

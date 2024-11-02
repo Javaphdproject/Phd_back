@@ -28,5 +28,6 @@ public class EtablissmentDTO {
         this.ville = etablissement.getVille();
     }
 
-
+    public EtablissmentDTO() {
+    }
 }

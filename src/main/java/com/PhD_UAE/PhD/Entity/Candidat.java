@@ -69,16 +69,16 @@ public class Candidat {
     private double moyenneMaster;
 
     // Langues
-    private String langues; // Liste de langues sous forme de chaîne (ex: "Français, Anglais")
-    private String niveauxLangues; // Liste de niveaux sous forme de chaîne (ex: "B1, C2")
+    private String langues;
+    private String niveauxLangues;
 
     // Expérience professionnelle
     private boolean experienceProfessionnelle;
-    private String organismes; // Liste d'organismes sous forme de chaîne
-    private String fonctions; // Liste de fonctions sous forme de chaîne
-    private String secteurs; // Liste de secteurs sous forme de chaîne
-    private String duDates; // Liste de dates de début sous forme de chaîne
-    private String auDates; // Liste de dates de fin sous forme de chaîne
+    private String organismes;
+    private String fonctions;
+    private String secteurs;
+    private String duDates;
+    private String auDates;
 
     // Documents scannés
     private String baccalaureatScanne;
@@ -106,10 +106,8 @@ public class Candidat {
             inverseJoinColumns = @JoinColumn(name = "sujet_id"))
     private List<Sujet> sujets;
 
-    // Référence à Candidature
-    @ManyToOne
-    @JoinColumn(name = "id_candidature")
-    private Candidature candidature;
+    @OneToMany(mappedBy = "candidat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Candidature> candidatures;
 
     public Candidat() {}
 }

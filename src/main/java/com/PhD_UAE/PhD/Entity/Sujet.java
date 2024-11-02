@@ -23,8 +23,6 @@ public class Sujet {
     private String description;
 
     // Relation with Professeur
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn(name = "idProfesseur")
     private Professeur propose;
@@ -33,7 +31,6 @@ public class Sujet {
     @JoinColumn(name = "idCED")
     private CED ced;
 
-    @Getter
     @ManyToMany(mappedBy = "sujets")
     private List<Candidat> candidates;
 

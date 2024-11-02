@@ -1,23 +1,24 @@
 package com.PhD_UAE.PhD.Dto;
 
-
 import com.PhD_UAE.PhD.Entity.Candidature;
-import com.PhD_UAE.PhD.Entity.Sujet;
 import lombok.Data;
 
 @Data
 public class CandidatureDTO {
-    private int idcandidature;
-    private boolean dossierComplet ;
+    private int idcandidature; // Changement de int à Long pour la cohérence
+    private boolean dossierComplet;
     private String etatCandidature;
     private Long idCandidat;
-    private Long idsujet ;
+    private Long idsujet;
 
     public CandidatureDTO(Candidature candidature){
         this.idcandidature = candidature.getIdcandidature();
+        this.dossierComplet = candidature.isDossierComplet(); // Ajout de l'accès au champ dossierComplet
         this.etatCandidature = candidature.getEtatCandidature();
-        this.idCandidat = candidature.getCandidate().getIdCandidate();
+        this.idCandidat = candidature.getCandidat().getIdCandidate(); // Correction ici
         this.idsujet = candidature.getSujet().getIdSujet();
     }
 
+    public CandidatureDTO() {
+    }
 }

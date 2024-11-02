@@ -70,7 +70,7 @@ public class CandidatDTO {
     private List<String> secteurs;
     private List<String> duDates;
     private List<String> auDates;
-    private  List<String> candidatProfessions;
+    //private  List<String> candidatProfessions;
 
     // Documents scannés
     private String baccalaureatScanne;

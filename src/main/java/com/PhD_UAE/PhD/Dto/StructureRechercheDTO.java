@@ -10,12 +10,13 @@ public class StructureRechercheDTO {
     private String nom;
     private Long idEtablissement;
 
-    public StructureRechercheDTO(StructureRecherche structureRecherche){
+    public StructureRechercheDTO(StructureRecherche structureRecherche) {
         this.idSTr = structureRecherche.getIdSTr();
         this.typeStructure = structureRecherche.getTypeStructure();
         this.nom = structureRecherche.getNom();
         this.idEtablissement = structureRecherche.getEtablissement().getIdEtablissement();
-
     }
 
+    public StructureRechercheDTO() {
+    }
 }

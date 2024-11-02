@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/phd/etablissements")
+@RequestMapping("/phd/auth/users/etablissements")
 public class EtablissementController {
 
     @Autowired

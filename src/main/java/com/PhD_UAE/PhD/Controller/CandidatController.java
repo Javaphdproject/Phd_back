@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/phd/candidat")
+@RequestMapping("/phd/auth/users/candidat")
 public class CandidatController {
 
     @Autowired

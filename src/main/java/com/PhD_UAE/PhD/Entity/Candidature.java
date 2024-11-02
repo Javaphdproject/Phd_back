@@ -18,13 +18,13 @@ public class Candidature {
     private List<Candidat> candidats;
 
     public Candidature() {}
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idCandidate", referencedColumnName = "idCandidate")
-    private Candidat candidate; // Change this line to use Candidate entity
+    private Candidat candidate;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idSujet", referencedColumnName = "idSujet")
-    private Sujet sujet; // Change this line to use Candidate entity
+    private Sujet sujet;
 
 
 }

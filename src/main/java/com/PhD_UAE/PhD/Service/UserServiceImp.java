@@ -3,6 +3,7 @@ package com.PhD_UAE.PhD.Service;
 import com.PhD_UAE.PhD.Dto.UserDTO;
 import com.PhD_UAE.PhD.Entity.User;
 import com.PhD_UAE.PhD.Entity.UserType;
+import com.PhD_UAE.PhD.Repository.CandidatRepository;
 import com.PhD_UAE.PhD.Repository.UserRepository;
 import com.PhD_UAE.PhD.Transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,8 @@ public class UserServiceImp implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
+@Autowired
+private CandidatRepository candidatRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -109,7 +111,6 @@ public class UserServiceImp implements UserDetailsService {
 
             user.setPrenom(userDTO.getPrenom());
             user.setNom(userDTO.getNom());
-            user.setMdp(userDTO.getMdp());
             user.setTel(userDTO.getTel());
             user.setUserType(userDTO.getUserType());
 
@@ -125,5 +126,7 @@ public class UserServiceImp implements UserDetailsService {
         Optional<User> userOpt = userRepository.findById(idUser);
         return userOpt.map(userTransformer::toDTO); // Assuming userTransformer transforms User to UserDTO
     }
+
+
 }
 

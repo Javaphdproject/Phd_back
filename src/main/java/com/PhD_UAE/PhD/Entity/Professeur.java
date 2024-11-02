@@ -24,7 +24,7 @@ public class Professeur {
     @JoinColumn(name = "idStructureRecherche")
     private StructureRecherche structureRecherche;
 
-    @OneToMany(mappedBy = "propose")
+    @OneToMany(mappedBy = "professeur")
     private List<Sujet> sujets;
 
     @OneToMany(mappedBy = "professeur")

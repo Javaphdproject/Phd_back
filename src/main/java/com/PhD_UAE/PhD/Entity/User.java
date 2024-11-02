@@ -28,6 +28,9 @@ public class User  {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    @OneToOne(mappedBy = "user")
+    private Professeur professeur;
+
 
     public User() {
     }

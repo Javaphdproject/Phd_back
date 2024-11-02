@@ -18,5 +18,14 @@ public class UserDTO {
     private String mdp;
     private String tel;
 
+    public UserDTO(String nom, String prenom, String email, long idUser) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.idUser = idUser;
+    }
 
+    public UserDTO() {
+
+    }
 }

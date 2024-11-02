@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/phd/structures-recherche")
+@RequestMapping("/phd/auth/users/structures-recherche")
 public class StructureRechercheController {
 
     @Autowired

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/phd/auth")
+@RequestMapping("/phd/auth/users")
 public class UserController {
     @Autowired
     private UserTransformer userTransformer;

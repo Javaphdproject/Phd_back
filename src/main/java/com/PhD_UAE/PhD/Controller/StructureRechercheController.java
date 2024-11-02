@@ -18,4 +18,5 @@ public class StructureRechercheController {
         String result = structureRechercheService.createStructureRecherche(etablissementId, structureRechercheDTO);
         return ResponseEntity.ok(result);
     }
+
 }

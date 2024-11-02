@@ -13,9 +13,9 @@ public class CandidatureDTO {
 
     public CandidatureDTO(Candidature candidature){
         this.idcandidature = candidature.getIdcandidature();
-        this.dossierComplet = candidature.isDossierComplet(); // Ajout de l'accès au champ dossierComplet
+        this.dossierComplet = candidature.isDossierComplet();
         this.etatCandidature = candidature.getEtatCandidature();
-        this.idCandidat = candidature.getCandidat().getIdCandidate(); // Correction ici
+        this.idCandidat = candidature.getCandidat().getIdCandidate();
         this.idsujet = candidature.getSujet().getIdSujet();
     }
 

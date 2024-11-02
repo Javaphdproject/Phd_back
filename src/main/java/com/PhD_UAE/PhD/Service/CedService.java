@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -245,6 +246,20 @@ public class CedService {
 
     private String generatePassword() {
         return UUID.randomUUID().toString().substring(0, 8);
+    }
+    public List<ProfesseurDTO> getAllProfesseurs() {
+        // Récupérer les professeurs ayant le type d'utilisateur "PROFESSEUR"
+        List<Professeur> professeurs = professeurRepository.findAllByUser_UserType(UserType.PROFESSEUR);
+
+        // Transformer les entités en DTOs
+        return professeurs.stream()
+                .map(ProfesseurDTO::new)
+                .collect(Collectors.toList());
+    }
+    // Méthode pour obtenir les données d'un professeur spécifique par ID
+    public ProfesseurDTO getProfessorById(Long id) {
+        Optional<Professeur> professeurOpt = professorRepository.findById(id);
+        return professeurOpt.map(ProfesseurDTO::new).orElse(null);
     }
 
 }

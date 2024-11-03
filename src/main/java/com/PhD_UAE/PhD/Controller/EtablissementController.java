@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/phd/auth/users/etablissements")
 public class EtablissementController {
 
@@ -26,6 +25,5 @@ public class EtablissementController {
         List<EtablissmentDTO> etablissements = etablissementService.getAllEtablissementsWithStructures();
         return ResponseEntity.ok(etablissements);
     }
-
 
 }

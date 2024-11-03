@@ -15,11 +15,12 @@ import java.util.List;
 public class Candidat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCandidate; // ID unique pour le candidat
+    private Long idCandidate; // Unique ID for Candidat
 
     @OneToOne
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    private User user; // Association avec l'entité User
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
+    private User user;
+
 
     private Date dateNaissance;
     private String adresse;
@@ -28,6 +29,7 @@ public class Candidat {
     private String pays;
     private String photo;
     private boolean fonctionnaire;
+
     private String situationFamiliale;
     private String nationalite;
     private String paysNaissance;
@@ -39,7 +41,7 @@ public class Candidat {
     private boolean handicape;
     private String professionPere;
     private String professionMere;
-    private String candidatProfession;
+    private String Candidatprofession;
     private String organismeEmployeur;
 
     // Baccalauréat
@@ -69,16 +71,29 @@ public class Candidat {
     private double moyenneMaster;
 
     // Langues
-    private String langues;
-    private String niveauxLangues;
+    @ElementCollection
+    private List<String> langues;
+
+    @ElementCollection
+    private List<String> niveauxLangues;
 
     // Expérience professionnelle
     private boolean experienceProfessionnelle;
-    private String organismes;
-    private String fonctions;
-    private String secteurs;
-    private String duDates;
-    private String auDates;
+
+    @ElementCollection
+    private List<String> organisme;
+
+    @ElementCollection
+    private List<String> fonctions;
+
+    @ElementCollection
+    private List<String> secteurs;
+
+    @ElementCollection
+    private List<Date> duDates;
+
+    @ElementCollection
+    private List<Date> auDates;
 
     // Documents scannés
     private String baccalaureatScanne;
@@ -88,7 +103,6 @@ public class Candidat {
     private String releveNoteLicenceScanne;
     private String carteNationaleScanne;
     private String cvScanne;
-
     // Relations
     @OneToMany(mappedBy = "candidat")
     private List<Entretien> entretiens;
@@ -106,8 +120,10 @@ public class Candidat {
             inverseJoinColumns = @JoinColumn(name = "sujet_id"))
     private List<Sujet> sujets;
 
-    @OneToMany(mappedBy = "candidat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Candidature> candidatures;
+    // Add a reference to Candidature
+    @ManyToOne
+    @JoinColumn(name = "id_candidature")
+    private Candidature candidature;
 
     public Candidat() {}
 }

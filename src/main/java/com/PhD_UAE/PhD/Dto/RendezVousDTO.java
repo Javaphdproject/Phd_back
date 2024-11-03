@@ -9,4 +9,16 @@ public class RendezVousDTO {
     private LocalDate dateRendezvous;
     private String etatRendezVous;
     private int idCandidate;
+
+
+    public RendezVousDTO(int idRendezVous, LocalDate dateRendezvous, String etatRendezVous, int idCandidate) {
+        this.idRendezVous = idRendezVous;
+        this.dateRendezvous = dateRendezvous;
+        this.etatRendezVous = etatRendezVous;
+        this.idCandidate = idCandidate;
+    }
+
+    public RendezVousDTO() {
+
+    }
 }

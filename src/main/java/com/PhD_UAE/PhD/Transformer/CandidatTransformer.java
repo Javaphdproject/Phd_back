@@ -15,10 +15,10 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         CandidatDTO dto = new CandidatDTO();
 
         dto.setIdCandidate(candidat.getIdCandidate());
-        dto.setIdUser(candidat.getUser().getIdUser());
-        dto.setEmail(candidat.getUser().getEmail());
-        dto.setPrenom(candidat.getUser().getPrenom());
-        dto.setNom(candidat.getUser().getNom()); 
+        dto.setIdUser(candidat.getUser().getIdUser()); // Lier l'ID utilisateur
+        dto.setEmail(candidat.getUser().getEmail()); // Email de l'utilisateur
+        dto.setPrenom(candidat.getUser().getPrenom()); // Prénom utilisateur
+        dto.setNom(candidat.getUser().getNom()); // Nom utilisateur
         dto.setDateNaissance(candidat.getDateNaissance());
         dto.setAdresse(candidat.getAdresse());
         dto.setCin(candidat.getCin());

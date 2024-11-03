@@ -39,7 +39,7 @@ public class UserTransformer extends Transformer<User, UserDTO> {
             userDTO.setEmail(entity.getEmail());
             userDTO.setMdp(entity.getMdp());
             userDTO.setTel(entity.getTel());
-            userDTO.setUserType(entity.getUserType()); // Corrigez cette ligne
+            userDTO.setUserType(entity.getUserType());
             return userDTO;
         }
     }

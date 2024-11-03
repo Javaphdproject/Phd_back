@@ -14,7 +14,6 @@ public class StructureRechercheService {
 
     @Autowired
     private StructureRechercheRepository structureRechercheRepository;
-
     @Autowired
     private EtablissementRepository etablissementRepository;
 
@@ -41,9 +40,7 @@ public class StructureRechercheService {
         structureRecherche.setTypeStructure(structureRechercheDTO.getTypeStructure());
         structureRecherche.setNom(structureRechercheDTO.getNom());
         structureRecherche.setEtablissement(etablissement);
-
         structureRechercheRepository.save(structureRecherche);
-
         return "Structure de recherche créée avec succès!";
     }
 }

@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/phd/candidat/create/**", "/phd/candidat/**", "/phd/professeurs/**", "/phd/structures-recherche/create/**","/phd/etablissements/create/**").permitAll()
                         .requestMatchers("/phd/planning/create").permitAll()
                         .requestMatchers("/phd/planning/get").permitAll()
+                        .requestMatchers("/phd/auth/users/etablissements/all").permitAll()
                         .requestMatchers("/phd/auth/getuser/**", "/phd/auth/edit").permitAll()
                         .requestMatchers("/phd/auth/users/ced/").permitAll()
                         .anyRequest().authenticated())

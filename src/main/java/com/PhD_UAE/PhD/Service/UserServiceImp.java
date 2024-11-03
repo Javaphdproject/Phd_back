@@ -45,6 +45,7 @@ public class UserServiceImp implements UserDetailsService {
         return userRepository.findByEmail(email)
                 .map(user -> {
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getUserType().name()));
+                    System.out.println("User roles: " + authorities); // Log the roles
                     return new org.springframework.security.core.userdetails.User(
                             user.getEmail(),
                             user.getMdp(),
@@ -54,6 +55,7 @@ public class UserServiceImp implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
+
     public ResponseEntity<Map<String, String>> login(UserDTO userDTO) {
         try {
             UserDetails userDetails = loadUserByUsername(userDTO.getEmail());
@@ -62,13 +64,14 @@ public class UserServiceImp implements UserDetailsService {
 
             if (passwordEncoder.matches(userDTO.getMdp(), userDetails.getPassword())) {
                 String token = jwtUtil.generateToken(userDetails.getUsername(), user.getIdUser(), user.getUserType().name());
-                return ResponseEntity.ok(Map.of("status", "success", "token", token));
+                return ResponseEntity.ok(Map.of("status", "success", "token", token, "role", user.getUserType().name()));
             }
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(404).body(Map.of("status", "error", "message", "User not found"));
         }
         return ResponseEntity.status(401).body(Map.of("status", "error", "message", "Login failed"));
     }
+
 
     public ResponseEntity<String> registerUser(UserDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
@@ -118,6 +121,7 @@ public class UserServiceImp implements UserDetailsService {
     public boolean isCurrentUserCED() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null && authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_CED"));
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("CED"));
     }
+
 }

@@ -42,6 +42,9 @@ public class SecurityConfig {
                         .requestMatchers("/phd/Professeur/candidatesaccp/**","/phd/sujet/addsujet/**", "phd/sujet/getSujet/**", "phd/sujet/deleteSujet/**", "phd/sujet/updateSujet/**").permitAll()
                         .requestMatchers("/phd/Professeur/refusecandidat/**").permitAll()
                         .requestMatchers("/phd/Professeur/listentretien/**").permitAll()
+                        .requestMatchers("phd/Professeur/doctorant/**").permitAll()
+                        .requestMatchers("phd/Professeur/notecandidat/**").permitAll()
+                        .requestMatchers("phd/Professeur/generate-pdf").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();

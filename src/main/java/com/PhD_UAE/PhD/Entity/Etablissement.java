@@ -14,7 +14,6 @@ public class Etablissement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEtablissement;
-
     private String nomEtablissement;
     private String adresseEtablissement;
     private String ville;

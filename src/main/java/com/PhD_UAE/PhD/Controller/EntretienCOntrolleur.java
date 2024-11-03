@@ -1,7 +1,6 @@
 package com.PhD_UAE.PhD.Controller;
 
 import com.PhD_UAE.PhD.Dto.EntretienDTO;
-import com.PhD_UAE.PhD.Entity.Entretien;
 import com.PhD_UAE.PhD.Service.EntretienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,9 +39,13 @@ public class EntretienCOntrolleur {
 
         return profService.ListEntretien(idUser);
     }
-     @PostMapping("/notecandidat/{userId}")
-    public ResponseEntity<String> notecandidat(@RequestBody EntretienDTO entretien, @PathVariable Long userId) {
-        return profService.noteCandidat(entretien, userId);
-     }
+    @PutMapping("/notecandidat/{idEntretien}")
+    public ResponseEntity<String> notecandidat(@RequestBody EntretienDTO entretienDTO, @PathVariable Long idEntretien) {
+        return profService.noteCandidat(entretienDTO, idEntretien);
+    }
 
+    @GetMapping("/doctorant/{idUser}")
+    public List<Object[]> getdoctorant(@PathVariable Long idUser) {
+        return profService.getAlldoctorant(idUser);
+    }
 }

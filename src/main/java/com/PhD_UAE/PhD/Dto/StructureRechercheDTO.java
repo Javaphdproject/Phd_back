@@ -18,4 +18,8 @@ public class StructureRechercheDTO {
 
     }
 
+    public StructureRechercheDTO(String typeStructure, String nom) {
+        this.typeStructure = typeStructure;
+        this.nom = nom;
+    }
 }

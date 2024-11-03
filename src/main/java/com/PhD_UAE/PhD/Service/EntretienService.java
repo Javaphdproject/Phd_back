@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Service
 public class EntretienService {
@@ -81,28 +82,19 @@ public class EntretienService {
     }
 
     public ResponseEntity<String> refuseCandidature(Long idUser, long id) {
-        // Find the candidate's ID based on the user ID
         Long idCandidat = candidatRepository.findIdCandidatByUserId(id);
-        // Fetch the candidate details
         Candidat candidat = candidatRepository.findById(idCandidat)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found with id: " + idCandidat));
-
-        // Retrieve candidate's user information
         UserDTO candidatInfo = candidatRepository.findUserInfo(idCandidat);
         candidatureRepository.updateCandidatureStatus(idCandidat, "Refused");
         if (candidatInfo == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Candidate information could not be retrieved.");
         }
-
-        // Prepare email content
         String subject = "Interview";
         String body = String.format("Dear %s,\n\nWe regret to inform you that you have been rejected for the interview.\n\nBest regards,\nYour Company", candidatInfo.getNom());
-
-        // Check if the email address is present
         if (candidatInfo.getEmail() != null && !candidatInfo.getEmail().isEmpty()) {
             try {
-                // Attempt to send the email
                 emailService.sendEmail(candidatInfo.getEmail(), subject, body);
                 System.out.println("Email sent to: " + candidatInfo.getEmail());
                 return ResponseEntity.ok("Rejection email sent to candidate successfully.");
@@ -127,7 +119,27 @@ public class EntretienService {
         return  entretienRepository.findCandidateInfoByProfessorId(idProf);
     }
 
-    public ResponseEntity<String> noteCandidat(EntretienDTO entretien, Long userId) {
-    return  ResponseEntity.ok("");
+    public ResponseEntity<String> noteCandidat(EntretienDTO entretienDTO, Long idEntretien) {
+        Entretien entretien = entretienRepository.findByIdEntretien(idEntretien);
+        if (entretien == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entretien not found");
+        }
+        entretien.setResultat(entretienDTO.getResultat());
+        if (entretienDTO.getResultat().compareTo(new BigDecimal("12.5")) > 0) {
+            entretien.setStatus("doctorant");
+        } else {
+            entretien.setStatus("refused");
+        }
+        entretienRepository.save(entretien);
+
+        return ResponseEntity.ok("Note updated successfully");
+    }
+
+
+    public List<Object[]> getAlldoctorant(Long idUser) {
+        Long idProf = professorRepository.findIdProfByUserId(idUser);
+        Professeur professeur = professorRepository.findById(idProf)
+                .orElseThrow(() -> new IllegalArgumentException("Professor not found with id: " + idProf));
+        return  entretienRepository.findDoctorantInfoByProfessorId(idProf);
     }
 }

@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -34,13 +36,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO loginRequest) {
-        String jwt = String.valueOf(userService.login(loginRequest));
-        if (jwt.contains("error")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwt);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserDTO loginRequest) {
+        ResponseEntity<Map<String, String>> response = userService.login(loginRequest);
+        if (response.getBody().get("status").equals("error")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "error", "message", "Login failed"));
         }
-        return ResponseEntity.ok(jwt);
+        Map<String, Object> jwtResponse = new HashMap<>();
+        jwtResponse.put("status", "success");
+        jwtResponse.put("token", response.getBody().get("token"));
+        jwtResponse.put("role", response.getBody().get("role"));
+        return ResponseEntity.ok(jwtResponse);
     }
+
 
     @GetMapping("/getall")
     public ResponseEntity<List<UserDTO>> getAllUsers() {

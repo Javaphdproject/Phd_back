@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .hasAnyAuthority("PROFESSEUR", "CED")
                         .requestMatchers("/phd/auth/users/candidat/**").hasAnyAuthority("CANDIDAT", "CED","PROFESSEUR")
                         .requestMatchers("/phd/planning/create").hasAuthority("CED")
+                        .requestMatchers("/phd/bourse/en-cours").hasAuthority("CED")
                         .requestMatchers("/phd/planning/get").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

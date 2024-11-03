@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Data
@@ -13,6 +15,7 @@ public class EtablissmentDTO {
     private String nomEtablissement;
     private String adresseEtablissement;
     private String ville;
+    private List<StructureRechercheDTO> structures;
 
     public EtablissmentDTO(Long idEtablissement, String adresseEtablissement, String nomEtablissement, String ville) {
         this.idEtablissement =idEtablissement;
@@ -26,7 +29,9 @@ public class EtablissmentDTO {
         this.adresseEtablissement = etablissement.getAdresseEtablissement();
         this.nomEtablissement = etablissement.getNomEtablissement();
         this.ville = etablissement.getVille();
+
     }
 
-
+    public EtablissmentDTO() {
+    }
 }

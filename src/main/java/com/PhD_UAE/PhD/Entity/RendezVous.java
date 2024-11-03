@@ -24,4 +24,6 @@ public class RendezVous {
     @JoinColumn(name = "idCandidate", referencedColumnName = "idCandidate") // FK column in RendezVous table
     private Candidat candidat;
 
+
+
 }

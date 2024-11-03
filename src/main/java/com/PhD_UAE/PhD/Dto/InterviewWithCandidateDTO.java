@@ -14,7 +14,7 @@ public class InterviewWithCandidateDTO {
     private String status;
     private String candidateName;
     private String candidatePrenom;
-
+    private Long idCandidate;
     public InterviewWithCandidateDTO(Entretien entretien) {
         this.idEntretien = entretien.getIdEntretien();
         this.resultat = entretien.getResultat();
@@ -22,5 +22,6 @@ public class InterviewWithCandidateDTO {
         this.status = entretien.getStatus();
         this.candidateName = entretien.getCandidat().getUser().getNom();
         this.candidatePrenom = entretien.getCandidat().getUser().getPrenom();
+        this.idCandidate = entretien.getCandidat().getIdCandidate();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,6 +49,12 @@ public class CedService {
 
     @Autowired
     private RendezVousRepository rendezVousRepository;
+
+    @Autowired
+    private SujetRepository sujetRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public List<EtablissmentDTO> getAllEtablissement(){
         List<Etablissement> etablissements = etablissementRepository.findAll();
@@ -183,6 +190,8 @@ public class CedService {
                 .orElseThrow(() -> new RuntimeException("CED not found"));
         professeur.setCed(ced); // Associer le CED
 
+        System.out.println("Searching for Etablissement with ID: " + professeurDTO.getIdEtablissement() );
+
         // Vérifier et associer l'établissement
         if (professeurDTO.getIdEtablissement() != null) {
             Etablissement etablissement = etablissementRepository.findById(professeurDTO.getIdEtablissement())
@@ -201,7 +210,9 @@ public class CedService {
         userRepository.save(user); // Sauvegarder l'utilisateur
         professeurRepository.save(professeur); // Sauvegarder le professeur
 
-        return STR."Professeur registered successfully! Password: \{generatedPassword}";
+//        return STR."Professeur registered successfully! Password: \{generatedPassword}";
+        return STR."Professeur registered successfully! ";
+
     }
 
 
@@ -223,9 +234,73 @@ public class CedService {
                 .map(InterviewWithCandidateDTO::new)
                 .collect(Collectors.toList());
     }
+//    @Transactional
+//    public String addRendezVous(RendezVousDTO rendezVousDTO) {
+//        // Validate that the candidate exists
+//        Candidat candidat = candidatRepository.findById((long) rendezVousDTO.getIdCandidate())
+//                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + rendezVousDTO.getIdCandidate()));
+//
+//        // Create a new RendezVous object
+//        RendezVous rendezVous = new RendezVous();
+//        rendezVous.setDateRendezvous(rendezVousDTO.getDateRendezvous()); // Assuming it's already a LocalDate
+//        rendezVous.setEtatRendezVous(rendezVousDTO.getEtatRendezVous());
+//        rendezVous.setCandidat(candidat); // Associate the existing candidate
+//
+//        // Save the RendezVous to the database
+//        rendezVousRepository.save(rendezVous);
+//
+//        return "Rendez-vous added successfully!";
+//    }
 
+    @Transactional
+    public String addRendezVous(RendezVousDTO rendezVousDTO) {
+        // Validate that the candidate exists
+        Candidat candidat = candidatRepository.findById((long) rendezVousDTO.getIdCandidate())
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + rendezVousDTO.getIdCandidate()));
 
-    public Optional<RendezVous> getRendezVousForEntretien(int idCandidate) {
-        return rendezVousRepository.findByCandidat_IdCandidate(idCandidate);
+        // Create a new RendezVous object
+        RendezVous rendezVous = new RendezVous();
+        rendezVous.setDateRendezvous(rendezVousDTO.getDateRendezvous());
+        rendezVous.setEtatRendezVous(rendezVousDTO.getEtatRendezVous());
+        rendezVous.setCandidat(candidat);
+
+        // Save the RendezVous to the database
+        rendezVousRepository.save(rendezVous);
+
+        // Prepare the email
+        String subject = "Rendez-vous Confirmation";
+        String body = String.format("Dear %s,\n\nYour rendez-vous has been scheduled for %s.\n\nBest regards,\n",
+                candidat.getUser().getNom(), rendezVousDTO.getDateRendezvous());
+
+        // Send the email
+        emailService.sendEmail(candidat.getUser().getEmail(), subject, body);
+
+        return "Rendez-vous added successfully and email sent!";
     }
+
+
+
+
+//section de structure recherche
+    public List<ProfesseurDTO> getAllProfesseurs() {
+        // Récupérer les professeurs ayant le type d'utilisateur "PROFESSEUR"
+        List<Professeur> professeurs = professeurRepository.findAllByUser_UserType(UserType.PROFESSEUR);
+
+        // Transformer les entités en DTOs
+        return professeurs.stream()
+                .map(ProfesseurDTO::new)
+                .collect(Collectors.toList());
+    }
+    // Méthode pour obtenir les données d'un professeur spécifique par ID
+    public ProfesseurDTO getProfessorById(Long id) {
+        Optional<Professeur> professeurOpt = professorRepository.findById(id);
+        return professeurOpt.map(ProfesseurDTO::new).orElse(null);
+    }
+
+    public List<Sujet> getSubjectsByProfessorId(Long professorId) {
+        return sujetRepository.findByPropose_IdProfesseur(professorId);
+    }
+
+
+
 }

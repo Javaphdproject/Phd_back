@@ -16,6 +16,7 @@ import org.springframework.core.io.UrlResource;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,23 +131,21 @@ public class CedController {
 
 
 
-
+//admin rendezvous
     @GetMapping("/getCandidates")
     public List<InterviewWithCandidateDTO> getAcceptedInterviews() {
         List<InterviewWithCandidateDTO> interviews = CedService.getAcceptedInterviews();
         return interviews;
     }
 
-
-    @GetMapping("" +
-            "" +
-            "/rendezvous/{idCandidate}")
-    public ResponseEntity<RendezVous> getRendezVous(@PathVariable int idCandidate) {
-        Optional<RendezVous> rendezVous = CedService.getRendezVousForEntretien(idCandidate);
-        if (rendezVous.isPresent()) {
-            return ResponseEntity.ok(rendezVous.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/add")
+    public ResponseEntity<String> addRendezVous(@RequestBody RendezVousDTO rendezVousDTO) {
+        String result = CedService.addRendezVous(rendezVousDTO);
+        return ResponseEntity.ok(result);
     }
+
+
+
+
+
 }

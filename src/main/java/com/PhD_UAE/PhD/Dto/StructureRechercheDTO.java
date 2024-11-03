@@ -17,6 +17,11 @@ public class StructureRechercheDTO {
         this.idEtablissement = structureRecherche.getEtablissement().getIdEtablissement();
     }
 
+    public StructureRechercheDTO(String nom, String typeStructure) {
+        this.nom = nom;
+        this.typeStructure = typeStructure;
+    }
+
     public StructureRechercheDTO() {
     }
 }

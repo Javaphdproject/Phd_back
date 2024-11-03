@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -28,8 +29,8 @@ public class Etablissement {
     @OneToMany(mappedBy = "etablissement")
     private List<Professeur> professeurs;
 
-    @OneToMany(mappedBy = "etablissement")
-    private List<StructureRecherche> structuresRecherche;
+    @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StructureRecherche> structuresRecherche = new ArrayList<>();
     public Etablissement() {
     }
 

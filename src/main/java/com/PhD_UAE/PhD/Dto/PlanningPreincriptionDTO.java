@@ -34,6 +34,6 @@ public class PlanningPreincriptionDTO {
         this.dateConvocationEtudiants=planningPreinscription.getDateConvocationEtudiants();
         this.dateInscription=planningPreinscription.getDateInscription();
         this.dateDepotDossier=planningPreinscription.getDateDepotDossier();
-        this.cedId=planningPreinscription.getCed().getIdCED();
+        this.cedId = planningPreinscription.getCed() != null ? planningPreinscription.getCed().getIdCED() : null;
     }
 }

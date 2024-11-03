@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/phd/auth/users/ced")
 public class CedController {
 

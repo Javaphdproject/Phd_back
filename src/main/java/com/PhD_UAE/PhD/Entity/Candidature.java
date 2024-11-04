@@ -8,7 +8,7 @@ import lombok.Data;
 public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idcandidature; // Changez de int à Long pour la cohérence
+    private int idcandidature;
 
     private boolean dossierComplet;
     private String etatCandidature;

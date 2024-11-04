@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/phd/auth/users")
+@RequestMapping("/phd/auth")
 public class UserController {
     @Autowired
     private UserTransformer userTransformer;
@@ -60,5 +60,5 @@ public class UserController {
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-}
 
+}

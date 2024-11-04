@@ -1,6 +1,8 @@
 package com.PhD_UAE.PhD.Controller;
 
 import com.PhD_UAE.PhD.Dto.ProfesseurDTO;
+import com.PhD_UAE.PhD.Dto.SujetDTO;
+import com.PhD_UAE.PhD.Entity.Sujet;
 import com.PhD_UAE.PhD.Service.CedService;
 import com.PhD_UAE.PhD.Service.ProfesseurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -38,5 +41,14 @@ public class ProfesseurController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/{id}/sujets")
+    public ResponseEntity<List<SujetDTO>> getSubjectsByProfessorId(@PathVariable Long id) {
+        List<Sujet> sujets = cedService.getSubjectsByProfessorId(id);
+        List<SujetDTO> sujetDTOs = sujets.stream()
+                .map(sujet -> new SujetDTO(sujet.getIdSujet(), sujet.getTitre(), sujet.getProjet(), sujet.getDescription()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(sujetDTOs);
     }
 }

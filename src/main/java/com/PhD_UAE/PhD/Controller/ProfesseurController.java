@@ -2,6 +2,7 @@ package com.PhD_UAE.PhD.Controller;
 
 import com.PhD_UAE.PhD.Dto.ProfesseurDTO;
 import com.PhD_UAE.PhD.Service.CedService;
+import com.PhD_UAE.PhD.Service.ProfesseurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/phd/auth/users/professeurs")
 public class ProfesseurController {
 

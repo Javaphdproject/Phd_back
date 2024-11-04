@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,6 +15,10 @@ public class BourseService {
     @Autowired
     private BourseRepository bourseRepository;
 
+
+
+    public List<BourseDTO> getAllBourses() {
+        List<Bourse> bourses = bourseRepository.findAll(); // Fetch all bourses
     public List<BourseDTO> getBoursesEnCours() {
         List<Bourse> bourses = bourseRepository.findByEtatDemande("en cours");
         return bourses.stream()
@@ -29,4 +34,14 @@ public class BourseService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public void changeBourseStatus(Long idBourse, String newStatus) {
+        Optional<Bourse> bourse = bourseRepository.findById(idBourse);
+        if (bourse.isPresent()) {
+            Bourse b = bourse.get();
+            b.setEtatDemande(newStatus);
+            bourseRepository.save(b);
+        }
+    }
+}
 }

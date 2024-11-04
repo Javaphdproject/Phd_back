@@ -18,7 +18,7 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         dto.setIdUser(candidat.getUser().getIdUser());
         dto.setEmail(candidat.getUser().getEmail());
         dto.setPrenom(candidat.getUser().getPrenom());
-        dto.setNom(candidat.getUser().getNom()); 
+        dto.setNom(candidat.getUser().getNom());
         dto.setDateNaissance(candidat.getDateNaissance());
         dto.setAdresse(candidat.getAdresse());
         dto.setCin(candidat.getCin());
@@ -143,7 +143,7 @@ public class CandidatTransformer extends Transformer<Candidat, CandidatDTO> {
         // Transform List to String for multi-valued fields
         candidat.setLangues(joinList(dto.getLangues()));
         candidat.setNiveauxLangues(joinList(dto.getNiveauxLangues()));
-        candidat.setOrganismes((dto.getOrganisme())); // Assurez-vous que cette méthode existe
+        candidat.setOrganismes((dto.getOrganisme()));
         candidat.setFonctions(joinList(dto.getFonctions()));
         candidat.setSecteurs(joinList(dto.getSecteurs()));
         candidat.setDuDates(joinList(dto.getDuDates()));

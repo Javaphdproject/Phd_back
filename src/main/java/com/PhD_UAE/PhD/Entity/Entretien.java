@@ -18,6 +18,7 @@ public class Entretien {
     private int idEntretien ;
     private String resultat;
     private LocalDate date;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "idProfesseur", referencedColumnName= "idProfesseur")

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SujetRepository extends JpaRepository<Sujet, Long> {
 
-    List<Sujet> findByPropose_IdProfesseur(Long professorId);
+    List<Sujet> findByProfesseur_IdProfesseur(Long professorId);
 
 }

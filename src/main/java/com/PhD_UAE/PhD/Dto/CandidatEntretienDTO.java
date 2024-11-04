@@ -4,6 +4,7 @@ import com.PhD_UAE.PhD.Entity.Entretien;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -85,8 +86,8 @@ public class CandidatEntretienDTO {
     private String cvScanne;
 
     // Entretien Data
-    private int idEntretien;
-    private String resultat;
+    private Long idEntretien;
+    private BigDecimal resultat;
     private LocalDate date;
     private String status;
 

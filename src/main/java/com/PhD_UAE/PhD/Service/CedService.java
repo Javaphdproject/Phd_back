@@ -70,7 +70,7 @@ public class CedService {
     }
 
 
-    @Transactional
+   /* @Transactional
     public void createProfesseur(ProfesseurDTO professeurDTO) {
         // Create and save User
         User user = new User();
@@ -91,7 +91,7 @@ public class CedService {
         professeur.setUser(savedUser);
 
         professorRepository.save(professeur);
-    }
+    }*/
 
     //candidature
 
@@ -149,7 +149,6 @@ public class CedService {
         if (userRepository.findByEmail(professeurDTO.getEmail()).isPresent()) {
             return "Error: User with email already exists!";
         }
-
         String generatedPassword = generatePassword(); // Générer un mot de passe
         String encryptedPassword = passwordEncoder.encode(generatedPassword);
 
@@ -193,8 +192,6 @@ public class CedService {
         return STR."Professeur registered successfully! Password: \{generatedPassword}";
     }
 
-
-
     private String generatePassword() {
         return UUID.randomUUID().toString().substring(0, 8);
     }
@@ -212,5 +209,55 @@ public class CedService {
         Optional<Professeur> professeurOpt = professorRepository.findById(id);
         return professeurOpt.map(ProfesseurDTO::new).orElse(null);
     }
+    public List<InterviewWithCandidateDTO> getAcceptedInterviews() {
+        List<Entretien> acceptedInterviews = entretienRepository.findByStatus("accepted");
 
+        return acceptedInterviews.stream()
+                .map(InterviewWithCandidateDTO::new)
+                .collect(Collectors.toList());
+    }
+    @Autowired
+    private RendezVousRepository rendezVousRepository;
+
+    @Autowired
+    private SujetRepository sujetRepository;
+
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private EntretienRepository entretienRepository;
+    @Transactional
+    public String addRendezVous(RendezVousDTO rendezVousDTO) {
+        // Validate that the candidate exists
+        Candidat candidat = candidatRepository.findById((long) rendezVousDTO.getIdCandidate())
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + rendezVousDTO.getIdCandidate()));
+
+        // Create a new RendezVous object
+        RendezVous rendezVous = new RendezVous();
+        rendezVous.setDateRendezvous(rendezVousDTO.getDateRendezvous());
+        rendezVous.setEtatRendezVous(rendezVousDTO.getEtatRendezVous());
+        rendezVous.setCandidat(candidat);
+
+        // Save the RendezVous to the database
+        rendezVousRepository.save(rendezVous);
+
+        // Prepare the email
+        String subject = "Rendez-vous Confirmation";
+        String body = String.format("Dear %s,\n\nYour rendez-vous has been scheduled for %s.\n\nBest regards,\n",
+                candidat.getUser().getNom(), rendezVousDTO.getDateRendezvous());
+
+        // Send the email
+        emailService.sendEmail(candidat.getUser().getEmail(), subject, body);
+
+        return "Rendez-vous added successfully and email sent!";
+    }
+    public List<Sujet> getSubjectsByProfessorId(Long professorId) {
+        return sujetRepository.findByProfesseur_IdProfesseur(professorId);
+    }
+
+
+    public CandidatureDTO getCandidatureByCandidateId(Long idCandidate) {
+        Optional<Candidature> candidature = candidatureRepository.findCandidatureByIdCandidate(idCandidate);
+        return candidature.map(CandidatureDTO::new).orElse(null);
+    }
 }

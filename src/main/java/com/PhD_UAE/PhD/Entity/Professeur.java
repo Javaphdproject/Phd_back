@@ -24,7 +24,7 @@ public class Professeur {
     @JoinColumn(name = "idStructureRecherche", referencedColumnName = "idSTr")
     private StructureRecherche structureRecherche; // Many Professors can belong to one Structure
 
-    @OneToMany(mappedBy = "propose")
+    @OneToMany(mappedBy = "professeur")
     private List<Sujet> sujets;
 
     @OneToMany(mappedBy = "professeur")

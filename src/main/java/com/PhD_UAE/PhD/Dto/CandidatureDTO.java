@@ -15,7 +15,7 @@ public class CandidatureDTO {
         this.idcandidature = candidature.getIdcandidature();
         this.dossierComplet = candidature.isDossierComplet();
         this.etatCandidature = candidature.getEtatCandidature();
-        this.idCandidat = candidature.getCandidat().getIdCandidate();
+        this.idCandidat = candidature.getCandidate().getIdCandidate();
         this.idsujet = candidature.getSujet().getIdSujet();
     }
 

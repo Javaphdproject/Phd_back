@@ -80,4 +80,10 @@ public class CandidatDTO {
     private String releveNoteLicenceScanne;
     private String carteNationaleScanne;
     private String cvScanne;
+    public CandidatDTO() {
+    }
+    public CandidatDTO(Long idCandidate) {
+        this.idCandidate = idCandidate;
+    }
+
 }

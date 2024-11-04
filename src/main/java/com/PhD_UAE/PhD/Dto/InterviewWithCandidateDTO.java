@@ -4,12 +4,13 @@ import com.PhD_UAE.PhD.Entity.Candidat;
 import com.PhD_UAE.PhD.Entity.Entretien;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 public class InterviewWithCandidateDTO {
-    private int idEntretien;
-    private String resultat;
+    private Long idEntretien;
+    private BigDecimal resultat;
     private LocalDate date;
     private String status;
     private String candidateName;

@@ -25,7 +25,7 @@ public class Sujet {
     // Relation with Professeur
     @ManyToOne
     @JoinColumn(name = "idProfesseur")
-    private Professeur propose;
+    private Professeur professeur;
 
     @ManyToOne
     @JoinColumn(name = "idCED")

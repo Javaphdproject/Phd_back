@@ -6,59 +6,74 @@ import com.PhD_UAE.PhD.Entity.UserType;
 import com.PhD_UAE.PhD.Service.UserServiceImp;
 import com.PhD_UAE.PhD.Transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/phd/auth/users")
 public class UserController {
-    @Autowired
-    private UserTransformer userTransformer;
 
     @Autowired
     private UserServiceImp userService;
 
+    @Autowired
+    private UserTransformer userTransformer;
+
     @PostMapping("/register")
-    public String inscription(@RequestBody UserDTO userDTO) {
-        System.out.println("Role : " + userDTO.getUserType());
-        return userService.registerUser(userDTO);
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        String result = String.valueOf(userService.registerUser(userDTO));
+        if (result.contains("Error")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO loginRequest) {
-        return userService.login(loginRequest);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserDTO loginRequest) {
+        ResponseEntity<Map<String, String>> response = userService.login(loginRequest);
+        if (response.getBody().get("status").equals("error")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "error", "message", "Login failed"));
+        }
+        Map<String, Object> jwtResponse = new HashMap<>();
+        jwtResponse.put("status", "success");
+        jwtResponse.put("token", response.getBody().get("token"));
+        jwtResponse.put("role", response.getBody().get("role"));
+        return ResponseEntity.ok(jwtResponse);
     }
+
+
     @GetMapping("/getall")
-    public List<UserDTO> getAll() {
-        return userService.getAllUsers(); // Call the service method to get all users
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
+
     @GetMapping("/users/{userType}")
-    public List<UserDTO> getUsersByUserType(@PathVariable UserType userType) {
+    public ResponseEntity<List<UserDTO>> getUsersByUserType(@PathVariable UserType userType) {
         List<User> users = userService.findAllByUserType(userType);
-        return users.stream()
+        List<UserDTO> userDTOs = users.stream()
                 .map(userTransformer::toDTO)
                 .toList();
+        return ResponseEntity.ok(userDTOs);
     }
+
     @PutMapping("/edit")
-    public ResponseEntity<String> edit(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> editUser(@RequestBody UserDTO userDTO) {
         String result = userService.updateUser(userDTO);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/getuser/{idUser}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable long idUser) {
-        Optional<UserDTO> user = userService.getUserById(idUser);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<UserDTO> getUserById(@PathVariable long idUser) {
+        Optional<UserDTO> userDTO = userService.getUserById(idUser);
+        return userDTO.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
-

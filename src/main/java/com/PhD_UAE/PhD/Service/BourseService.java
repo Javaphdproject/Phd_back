@@ -16,8 +16,11 @@ public class BourseService {
     private BourseRepository bourseRepository;
 
 
+
     public List<BourseDTO> getAllBourses() {
         List<Bourse> bourses = bourseRepository.findAll(); // Fetch all bourses
+    public List<BourseDTO> getBoursesEnCours() {
+        List<Bourse> bourses = bourseRepository.findByEtatDemande("en cours");
         return bourses.stream()
                 .map(bourse -> {
                     BourseDTO dto = new BourseDTO(bourse);
@@ -40,4 +43,5 @@ public class BourseService {
             bourseRepository.save(b);
         }
     }
+}
 }

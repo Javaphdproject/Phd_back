@@ -1,11 +1,7 @@
 package com.PhD_UAE.PhD.Entity;
 
-import com.PhD_UAE.PhD.Entity.Candidat;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 
 @Entity

@@ -1,5 +1,6 @@
 package com.PhD_UAE.PhD.Repository;
 
+import com.PhD_UAE.PhD.Dto.EntretienDTO;
 import com.PhD_UAE.PhD.Entity.Entretien;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface EntretienRepository extends CrudRepository<Entretien, Integer> {
     @Query("SELECT new com.PhD_UAE.PhD.Dto.UserDTO(u.nom, u.prenom, u.email, u.idUser), " +
             "new com.PhD_UAE.PhD.Dto.SujetDTO(s.idSujet, s.titre, s.professeur.idProfesseur), " +
-            "new com.PhD_UAE.PhD.Dto.EntretienDTO(e.idEntretien) " +
+            "new com.PhD_UAE.PhD.Dto.EntretienDTO(e.idEntretien, e.candidat.idCandidate) " +
             "FROM User u " +
             "JOIN Candidat c ON u.idUser = c.user.idUser " +
             "JOIN Candidature cu ON c.idCandidate = cu.candidate.idCandidate " +
@@ -48,5 +49,12 @@ public interface EntretienRepository extends CrudRepository<Entretien, Integer> 
             "AND e.idEntretien = :identretien")
 
     List<Object[]> findDoctorantInfoByProfessorId(@Param("professorId") Long professorId, @Param("identretien") Long identretien);
+    @Query(value = "SELECT DATE(e.date) AS interviewDate, COUNT(*) AS interviewCount " +
+            "FROM entretien e " +
+            "WHERE e.professeur.idProfesseur = :professorId " +
+            "GROUP BY interviewDate " +
+            "ORDER BY interviewDate",
+            nativeQuery = true)
+    List<EntretienDTO> countInterviewsByDate(@Param("professorId") Long professorId);
 
 }

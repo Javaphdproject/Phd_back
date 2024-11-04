@@ -20,4 +20,8 @@ public class CandidatureDTO {
         this.idsujet = candidature.getSujet().getIdSujet();
     }
 
+    public CandidatureDTO() {}
+    public CandidatureDTO(Long idCandidat) {
+        this.idCandidat = idCandidat;
+    }
 }

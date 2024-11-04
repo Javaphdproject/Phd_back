@@ -1,10 +1,11 @@
 package com.PhD_UAE.PhD.Dto;
 
+import com.PhD_UAE.PhD.Entity.Sujet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+
 @Data
 @NoArgsConstructor
 public class SujetDTO {
@@ -22,5 +23,23 @@ public class SujetDTO {
     private String projet;
 
     private String description;
+
+    public SujetDTO(Long idSujet, String titre, Long idProfesseur, String projet, String description) {
+        this.idSujet = idSujet;
+        this.titre = titre;
+        this.idProfesseur = idProfesseur;
+        this.projet = projet;
+        this.description = description;
+    }
+
+    public SujetDTO(Sujet sujet) {
+        if (sujet != null) {
+            this.idSujet = sujet.getIdSujet();
+            this.titre = sujet.getTitre();
+            this.idProfesseur = sujet.getProfesseur().getIdProfesseur();
+            this.projet = sujet.getProjet();
+            this.description = sujet.getDescription();
+        }
+    }
 
 }

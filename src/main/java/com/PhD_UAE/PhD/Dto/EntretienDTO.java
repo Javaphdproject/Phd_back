@@ -28,6 +28,11 @@ public class EntretienDTO {
         this.date = date;
     }
 
+    public EntretienDTO(Long idEntretien,Long idCandidate) {
+        this.idEntretien = idEntretien;
+        this.idCandidate = idCandidate;
+    }
+
     public Long getIdEntretien() {
         return idEntretien;
     }

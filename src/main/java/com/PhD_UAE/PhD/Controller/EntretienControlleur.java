@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/phd/Professeur")
 @RestController
-public class EntretienCOntrolleur {
+public class EntretienControlleur {
     @Autowired
     EntretienService profService;
     @GetMapping("/candidatesaccp/{idUser}")

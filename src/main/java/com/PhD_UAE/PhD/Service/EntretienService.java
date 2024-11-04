@@ -124,16 +124,44 @@ public class EntretienService {
         if (entretien == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entretien not found");
         }
+
         entretien.setResultat(entretienDTO.getResultat());
+        UserDTO candidatInfo = candidatRepository.findUserInfo(entretien.getCandidat().getIdCandidate());
+
+        if (candidatInfo == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Candidate information could not be retrieved.");
+        }
+
+        String subject;
+        String body;
+
         if (entretienDTO.getResultat().compareTo(new BigDecimal("12.5")) > 0) {
             entretien.setStatus("doctorant");
+            subject = "Congratulations - You Have Been Accepted!";
+            body = String.format("Dear %s,\n\nWe are pleased to inform you that you have been accepted as a doctorant with a score of %s.\n\nBest regards,\nYour Company",
+                    candidatInfo.getNom(), entretienDTO.getResultat());
+
         } else {
             entretien.setStatus("refused");
+            subject = "Interview Result";
+            body = String.format("Dear %s,\n\nWe regret to inform you that you have not been selected based on your score of %s.\n\nBest regards,\nYour Company",
+                    candidatInfo.getNom(), entretienDTO.getResultat());
         }
+
         entretienRepository.save(entretien);
 
-        return ResponseEntity.ok("Note updated successfully");
+        try {
+            emailService.sendEmail(candidatInfo.getEmail(), subject, body);
+            System.out.println("Email sent to: " + candidatInfo.getEmail());
+            return ResponseEntity.ok("Note updated and email sent successfully.");
+        } catch (Exception e) {
+            System.out.println("Failed to send email to: " + candidatInfo.getEmail() + " - Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Note updated, but failed to send email to the candidate.");
+        }
     }
+
 
 
     public List<Object[]> getAlldoctorant(Long idUser) {

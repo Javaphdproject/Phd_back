@@ -45,6 +45,9 @@ public class SecurityConfig {
                         .requestMatchers("phd/Professeur/doctorant/**").permitAll()
                         .requestMatchers("phd/Professeur/notecandidat/**").permitAll()
                         .requestMatchers("phd/Professeur/generate-pdf").permitAll()
+                        .requestMatchers("/phd/auth/users/candidat/**").permitAll()
+                        .requestMatchers("/phd/candidature/get-all-sujets").permitAll()
+                        .requestMatchers("phd/candidature/add/**").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();

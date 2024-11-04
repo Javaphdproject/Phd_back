@@ -15,4 +15,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Intege
     @Query("UPDATE Candidature c SET c.etatCandidature = :status WHERE c.candidate.idCandidate = :id")
     void updateCandidatureStatus(@Param("id") Long id, @Param("status") String status);
 
+    @Query("SELECT COUNT(c) FROM Candidature c WHERE c.candidate.idCandidate = ?1")
+    int countByCandidatId(Long candidateId);
 }

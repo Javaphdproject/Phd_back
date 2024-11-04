@@ -71,6 +71,10 @@ public class CandidatDTO {
     private List<String> duDates;
     private List<String> auDates;
 
+    public CandidatDTO(Long idCandidate) {
+        this.idCandidate = idCandidate;
+    }
+
     // Documents scannés
     private String baccalaureatScanne;
     private String licenceScanne;

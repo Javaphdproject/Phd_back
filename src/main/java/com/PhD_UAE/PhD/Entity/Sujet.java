@@ -3,6 +3,7 @@ package com.PhD_UAE.PhD.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
 public class Sujet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +36,10 @@ public class Sujet {
     @Getter
     @ManyToMany(mappedBy = "sujets")
     private List<Candidat> candidates;
+    public Sujet(Sujet sujet) {
+        this.idSujet = idSujet;
+        this.titre = titre;
+        this.projet = projet;
+        this.description = description;
+    }
 }

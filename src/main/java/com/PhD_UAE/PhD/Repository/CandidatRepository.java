@@ -17,11 +17,12 @@ public interface CandidatRepository extends JpaRepository<Candidat, Long> {
             "new com.PhD_UAE.PhD.Dto.CandidatDTO(c.idCandidate) " +
             "FROM User u " +
             "JOIN u.candidat c " +
-            "JOIN c.candidature cu " +
+            "JOIN c.candidatures cu " +
             "JOIN cu.sujet s " +
             "JOIN s.professeur p " +
             "WHERE cu.etatCandidature = 'accepted' AND p.user.idUser = :idUser")
     List<Object[]> findAcceptedCandidates(@Param("idUser") long idUser);
+
 
     @Query("SELECT c.idCandidate FROM Candidat c WHERE c.user.idUser = :idUser")
     Long findIdCandidatByUserId(@Param("idUser") Long idUser);

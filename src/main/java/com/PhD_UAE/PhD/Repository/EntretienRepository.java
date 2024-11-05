@@ -57,7 +57,9 @@ public interface EntretienRepository extends CrudRepository<Entretien, Integer> 
             "AND e.status = 'doctorant' " +
             "AND e.idEntretien = :identretien")
 
+
     List<Object[]> findDoctorantInfoByProfessorId(@Param("professorId") Long professorId, @Param("identretien") Long identretien);
+
     @Query(value = "SELECT DATE(e.date) AS interviewDate, COUNT(*) AS interviewCount " +
             "FROM entretien e " +
             "WHERE e.professeur.idProfesseur = :professorId " +

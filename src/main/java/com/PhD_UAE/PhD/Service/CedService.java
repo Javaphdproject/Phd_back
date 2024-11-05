@@ -210,7 +210,7 @@ public class CedService {
         return professeurOpt.map(ProfesseurDTO::new).orElse(null);
     }
     public List<InterviewWithCandidateDTO> getAcceptedInterviews() {
-        List<Entretien> acceptedInterviews = entretienRepository.findByStatus("accepted");
+        List<Entretien> acceptedInterviews = entretienRepository.findByStatus("doctorant");
 
         return acceptedInterviews.stream()
                 .map(InterviewWithCandidateDTO::new)

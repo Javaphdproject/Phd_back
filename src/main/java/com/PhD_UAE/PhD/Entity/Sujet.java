@@ -31,7 +31,6 @@ public class Sujet {
     @JoinColumn(name = "idCED")
     private CED ced;
 
-    @ManyToMany(mappedBy = "sujets")
-    private List<Candidat> candidates;
+
 
 }

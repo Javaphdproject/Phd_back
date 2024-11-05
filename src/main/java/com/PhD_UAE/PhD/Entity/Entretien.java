@@ -18,7 +18,7 @@ public class Entretien {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEntretien ;
     private BigDecimal resultat;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
     private  String status;
 

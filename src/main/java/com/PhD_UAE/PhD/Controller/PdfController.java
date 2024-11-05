@@ -26,6 +26,7 @@ private EntretienRepository entretienRepository;
     public ResponseEntity<byte[]> generatePdf(@RequestParam Long professorId, @RequestParam Long identretien) {
         List<Object[]> data = entretienRepository.findDoctorantInfoByProfessorId(professorId, identretien);
         ByteArrayOutputStream pdfStream = pdfService.generatePdf(data);
+        System.out.println("Data size: " + data.size()); // Debug line
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=doctorant_info.pdf")

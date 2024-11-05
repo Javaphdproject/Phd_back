@@ -41,4 +41,7 @@ public class SujetDTO {
 
         }
     }
+    public SujetDTO() {
+        // Default constructor
+    }
 }

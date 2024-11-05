@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class EntretienDTO {
     private Long idEntretien;
     private BigDecimal resultat;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
     private Long idProfesseur;
     private Long idCandidate;

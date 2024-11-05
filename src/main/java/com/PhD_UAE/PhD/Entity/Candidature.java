@@ -13,9 +13,7 @@ public class Candidature {
     private boolean dossierComplet;
     private String etatCandidature;
 
-    // Update the mapping here
-    @OneToMany(mappedBy = "candidature")
-    private List<Candidat> candidats;
+
 
     public Candidature() {}
     @ManyToOne

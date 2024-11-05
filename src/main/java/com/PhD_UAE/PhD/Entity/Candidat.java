@@ -99,17 +99,12 @@ public class Candidat {
     @OneToMany(mappedBy = "candidat")
     private List<RendezVous> rendezVous;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Candidature",
-            joinColumns = @JoinColumn(name = "candidate_id"),
-            inverseJoinColumns = @JoinColumn(name = "sujet_id"))
-    private List<Sujet> sujets;
+
 
     // Référence à Candidature
-    @ManyToOne
-    @JoinColumn(name = "id_candidature")
-    private Candidature candidature;
+
+    @OneToMany(mappedBy = "candidate")
+    private List<Candidature> candidatures;
 
     public Candidat() {}
 }

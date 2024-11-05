@@ -3,6 +3,7 @@ package com.PhD_UAE.PhD.Controller;
 import com.PhD_UAE.PhD.Dto.*;
 import com.PhD_UAE.PhD.Entity.Etablissement;
 import com.PhD_UAE.PhD.Entity.Professeur;
+import com.PhD_UAE.PhD.Repository.CandidatRepository;
 import com.PhD_UAE.PhD.Repository.CandidatureRepository;
 import com.PhD_UAE.PhD.Service.CedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CedController {
     private CedService CedService;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private CandidatRepository candidatRepository;
 
     @GetMapping("/get-all-etablissement")
     public ResponseEntity<List<EtablissmentDTO>> getAllEtablissement(){
@@ -108,7 +111,7 @@ public class CedController {
     @GetMapping("/file/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
         try {
-            Path filePath = Paths.get("src/main/java/com/PhD_UAE/PhD/files").resolve(filename);
+            Path filePath = Paths.get("src/main/resources/static/images").resolve(filename);
             Resource resource =  new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
@@ -142,11 +145,13 @@ public class CedController {
 
     @GetMapping("/candidature/by-candidate/{idCandidate}")
     public ResponseEntity<CandidatureDTO> getCandidatureByCandidateId(@PathVariable Long idCandidate) {
-        CandidatureDTO candidatureDTO = CedService.getCandidatureByCandidateId(idCandidate);
+        Long idcandidat = candidatRepository.findIdCandidatByUserId(idCandidate);
+        CandidatureDTO candidatureDTO = CedService.getCandidatureByCandidateId(idcandidat);
         if (candidatureDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(candidatureDTO, HttpStatus.OK);
     }
+
 
 }

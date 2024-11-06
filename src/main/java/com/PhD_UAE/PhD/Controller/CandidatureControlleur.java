@@ -67,7 +67,7 @@ private CandidatureRepository candidatureR;
     }
 
 
-    @GetMapping("/get-all-sujets") // New endpoint
+    @GetMapping("/get-all-sujets") 
     public ResponseEntity<List<SujetDTO>> getAllSujets() {
         List<SujetDTO> sujets = candidatureService.getAllSujets();
         return new ResponseEntity<>(sujets, HttpStatus.OK);
